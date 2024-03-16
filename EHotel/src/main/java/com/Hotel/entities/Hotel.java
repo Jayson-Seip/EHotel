@@ -1,21 +1,27 @@
 package com.Hotel.entities;
 
-public class HotelChain {
+public class Hotel {
+    private int hotelID;
     private int chainID;
     private String name;
-    private String centralAddress;
-    private String numberOfHotels;
+    private String hotelAddress;
     private String email;
     private String phoneNumber;
+    private int rating;
 
-    public HotelChain(int chainID, String name, String centralAddress, String numberOfHotels, String email,
-            String phoneNumber) {
+    public Hotel(int hotelID, int chainID, String name, String hotelAddress, String email, String phoneNumber,
+            int rating) {
+        this.hotelID = hotelID;
         this.chainID = chainID;
         this.name = name;
-        this.centralAddress = centralAddress;
-        this.numberOfHotels = numberOfHotels;
+        this.hotelAddress = hotelAddress;
         this.email = email;
         this.phoneNumber = phoneNumber;
+        this.rating = rating;
+    }
+
+    public int getHotelID() {
+        return hotelID;
     }
 
     public int getChainID() {
@@ -26,12 +32,8 @@ public class HotelChain {
         return name;
     }
 
-    public String getCentralAddress() {
-        return centralAddress;
-    }
-
-    public String getNumberOfHotels() {
-        return numberOfHotels;
+    public String getHotelAddress() {
+        return hotelAddress;
     }
 
     public String getEmail() {
@@ -40,6 +42,10 @@ public class HotelChain {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public int getRating() {
+        return rating;
     }
 
 }
