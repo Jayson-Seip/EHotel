@@ -4,11 +4,11 @@ public class HotelChain {
     private int chainID;
     private String name;
     private String centralAddress;
-    private String numberOfHotels;
+    private int numberOfHotels;
     private String email;
     private String phoneNumber;
 
-    public HotelChain(int chainID, String name, String centralAddress, String numberOfHotels, String email,
+    public HotelChain(int chainID, String name, String centralAddress, int numberOfHotels, String email,
             String phoneNumber) {
         this.chainID = chainID;
         this.name = name;
@@ -30,7 +30,7 @@ public class HotelChain {
         return centralAddress;
     }
 
-    public String getNumberOfHotels() {
+    public int getNumberOfHotels() {
         return numberOfHotels;
     }
 
