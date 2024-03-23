@@ -17,9 +17,10 @@ Create table if not exists hotel(
 	chainID int NOT NULL,
 	name varchar(20) NOT NULL,
 	category int NOT NULL,
-	hotelAddress varchar(45) not null,
-	email varchar(100) not null,
-	phoneNumber varchar(20),
+	hotelAddress varchar(45) NOT NULL,
+	area varchar(20) NOT NULL,
+	email varchar(100) NOT NULL,
+	phoneNumber varchar(20) NOT NULL,
 	
 	PRIMARY KEY(HotelID),
 	FOREIGN KEY(ChainID) REFERENCES hotelChain ON DELETE CASCADE ON UPDATE CASCADE,
