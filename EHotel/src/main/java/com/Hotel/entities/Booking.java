@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Booking {
     private int bookingID;
-    private int RoomID;
+    private int roomID;
     private int customerID;
     private Date checkoutDate;
     private Date checkinDate;
@@ -12,7 +12,7 @@ public class Booking {
 
     public Booking(int bookingID, int roomID, int customerID, Date checkoutDate, Date checkinDate, boolean payment) {
         this.bookingID = bookingID;
-        RoomID = roomID;
+        this.roomID = roomID;
         this.customerID = customerID;
         this.checkoutDate = checkoutDate;
         this.checkinDate = checkinDate;
@@ -24,7 +24,7 @@ public class Booking {
     }
 
     public int getRoomID() {
-        return RoomID;
+        return roomID;
     }
 
     public int getCustomerID() {

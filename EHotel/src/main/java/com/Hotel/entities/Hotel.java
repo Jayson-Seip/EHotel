@@ -5,16 +5,19 @@ public class Hotel {
     private int chainID;
     private String name;
     private String hotelAddress;
+    private String area;
     private String email;
     private String phoneNumber;
     private int rating;
 
-    public Hotel(int hotelID, int chainID, String name, String hotelAddress, String email, String phoneNumber,
+    public Hotel(int hotelID, int chainID, String name, String hotelAddress, String area, String email,
+            String phoneNumber,
             int rating) {
         this.hotelID = hotelID;
         this.chainID = chainID;
         this.name = name;
         this.hotelAddress = hotelAddress;
+        this.area = area;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.rating = rating;
@@ -34,6 +37,10 @@ public class Hotel {
 
     public String getHotelAddress() {
         return hotelAddress;
+    }
+
+    public String getArea() {
+        return area;
     }
 
     public String getEmail() {

@@ -38,10 +38,15 @@ public class HotelChainService {
                         rSet.getInt("numberofhotel"),
                         rSet.getString("email"),
                         rSet.getString("phonenumber"));
-
                 hotelChains.add(chain);
 
             }
+            // Closes the database
+            rSet.close();
+            statement.close();
+            connection.close();
+            db.close();
+
         } catch (Exception e) {
             System.out.println("Fail to Connect to Database");
         }

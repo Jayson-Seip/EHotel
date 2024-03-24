@@ -5,7 +5,7 @@ Create table if not exists hotelChain(
 	centralAddress varchar(20) NOT NULL,
 	numberOfHotels int NOT NULL,
 	email varchar(100) NOT NULL,
-	phoneNumber int,
+	phoneNumber varchar(20),
 	
 	PRIMARY KEY (chainID),
 	check(email LIKE '_%@_%._%')
@@ -40,6 +40,24 @@ Create table if not exists Room(
 	
 	PRIMARY KEY(roomID),
 	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+Drop table if exists room_amenities cascade;
+Create table if not exists room_amenities(
+	roomID int NOT NULL,
+	amenities VARCHAR(20),
+
+	PRIMARY KEY(roomID,amenities),
+	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+Drop table if exists room_problems cascade;
+Create table if not exists room_problems(
+	roomID int NOT NULL,
+	problem VARCHAR(100),
+
+	PRIMARY KEY(roomID,problem),
+	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE
 );
 	
 	
@@ -93,7 +111,7 @@ Create table if not exists customer(
 
 Drop table if exists booking cascade;
 Create table if not exists booking(
-	bookingID int NOT NULL,
+	bookingID SERIAL NOT NULL,
 	roomID int NOT NULL,
 	customerID int NOT NULL,
 	checkout Date NOT NULL,
@@ -108,7 +126,7 @@ Create table if not exists booking(
 
 Drop table if exists renting cascade;
 Create table if not exists renting( 
-	rentingID int NOT NULL,
+	rentingID SERIAL NOT NULL,
 	roomID int NOT NULL,
 	customerID int NOT NULL,
 	checkout Date NOT NULL,

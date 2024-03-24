@@ -34,6 +34,7 @@ public class HotelService {
                         rSet.getInt("chainid"),
                         rSet.getString("name"),
                         rSet.getString("hoteladdress"),
+                        rSet.getString("area"),
                         rSet.getString("email"),
                         rSet.getString("phonenumber"),
                         rSet.getInt("category"));
@@ -41,6 +42,11 @@ public class HotelService {
                 hotelChains.add(hotel);
 
             }
+            rSet.close();
+            statement.close();
+            connection.close();
+            db.close();
+
         } catch (Exception e) {
             System.out.println("Fail to Connect to Database");
         }
