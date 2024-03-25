@@ -35,7 +35,7 @@ Create table if not exists Room(
 	price decimal(10,2) NOT NULL,
 	seaview bool NOT NULL,
 	mountainview bool NOT NULL,
-	capacity int NOT NULL,
+	capacity varchar(20) NOT NULL,
 	extendable bool NOT NULL,
 	
 	PRIMARY KEY(roomID),
