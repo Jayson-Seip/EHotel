@@ -1,8 +1,94 @@
 package com.Hotel.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.Hotel.db.ConnectionDB;
+import com.Hotel.entities.Booking;
+
 // Contains all the services for booking a room
 public class BookingService {
-    public void createBooking() {
+
+    /**
+     * Creates a booking for the customer
+     * 
+     * @param booking
+     * @return message confirming if booking was made
+     * @throws SQLException
+     */
+    public String createBooking(Booking booking) throws SQLException {
+        String message = "";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+
+        String query = "INSERT INTO booking (roomID, customerID,checkout,checkin, payment) VALUES(?,?,?,?,?)";
+
+        try {
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+
+            // the values for the database
+            statement.setInt(1, booking.getRoomID());
+            statement.setInt(2, booking.getCustomerID());
+            statement.setDate(3, booking.getCheckoutDate());
+            statement.setDate(4, booking.getCheckinDate());
+            statement.setBoolean(5, booking.getPayment());
+
+            statement.close();
+            db.close();
+
+        } catch (Exception e) {
+            message = "Error Creating booking";
+        } finally {
+            if (con != null)
+                con.close();
+            if (message.equals(""))
+                message = "Booking sucessful created";
+        }
+
+        return message;
+
+    }
+
+    /**
+     * Updates the booking of a hotel room
+     * 
+     * @param booking
+     * @return
+     */
+    public String updateBooking(Booking booking) throws SQLException {
+        String message = "";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+
+        String query = "UPDATE booking SET roomid=?,customerid=?,checkoutdate=?,checkingdate=?,payment=? WHERE id =?";
+
+        try {
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+
+            // the values for the database
+            statement.setInt(1, booking.getRoomID());
+            statement.setInt(2, booking.getCustomerID());
+            statement.setDate(3, booking.getCheckoutDate());
+            statement.setDate(4, booking.getCheckinDate());
+            statement.setBoolean(5, booking.getPayment());
+            statement.setInt(6, booking.getBookingID());
+
+            statement.close();
+            db.close();
+
+        } catch (Exception e) {
+            message = "Error updating booking";
+        } finally {
+            if (con != null)
+                con.close();
+            if (message.equals(""))
+                message = "Booking sucessful updated";
+        }
+
+        return message;
 
     }
 

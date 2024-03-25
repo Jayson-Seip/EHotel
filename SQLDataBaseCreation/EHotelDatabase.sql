@@ -2,7 +2,7 @@ Drop table if exists hotelChain cascade;
 Create table if not exists hotelChain(
 	chainID int,
 	name varchar(20) NOT NULL,
-	centralAddress varchar(20) NOT NULL,
+	centralAddress varchar(100) NOT NULL,
 	numberOfHotels int NOT NULL,
 	email varchar(100) NOT NULL,
 	phoneNumber varchar(20),
@@ -17,7 +17,7 @@ Create table if not exists hotel(
 	chainID int NOT NULL,
 	name varchar(20) NOT NULL,
 	category int NOT NULL,
-	hotelAddress varchar(45) NOT NULL,
+	hotelAddress varchar(100) NOT NULL,
 	area varchar(20) NOT NULL,
 	email varchar(100) NOT NULL,
 	phoneNumber varchar(20) NOT NULL,
@@ -124,6 +124,26 @@ Create table if not exists booking(
     CHECK (CheckOut > CheckIn)
 );
 
+DROP FUNCTION IF EXISTS check_booking_day();
+Create FUNCTION check_booking_day()
+	RETURNS TRIGGER as
+	$BODY$
+	BEGIN
+	-- Checks if check-in is before check-out date
+	IF NEW.checkin > NEW.checkout THEN
+		RAISE EXCEPTION 'Check-in date must be after check-out date';
+	END IF;
+	RETURN NEW;
+	END
+	$BODY$ LANGUAGE plpgsql;
+	
+DROP TRIGGER IF EXISTS update_booking ON booking;
+Create TRIGGER update_booking
+	BEFORE UPDATE ON booking
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_booking_day();
+
+
 Drop table if exists renting cascade;
 Create table if not exists renting( 
 	rentingID SERIAL NOT NULL,
@@ -135,11 +155,11 @@ Create table if not exists renting(
 	PRIMARY KEY(rentingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
-	CHECK (CheckOut > CheckIn)
+	CHECK (checkOut > checkIn)
 	
 );
 
-drop table if exists archives cascade;
+Drop table if exists archives cascade;
 Create table if not exists archives (
 	archiveID int NOT NULL,
 	customerID int NOT NULL,

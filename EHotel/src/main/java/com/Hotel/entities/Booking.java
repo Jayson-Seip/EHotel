@@ -39,7 +39,7 @@ public class Booking {
         return checkinDate;
     }
 
-    public boolean isPayment() {
+    public boolean getPayment() {
         return payment;
     }
 
