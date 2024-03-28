@@ -112,8 +112,8 @@ Create table if not exists customer(
 Drop table if exists booking cascade;
 Create table if not exists booking(
 	bookingID SERIAL NOT NULL,
-	roomID int NOT NULL,
-	customerID int NOT NULL,
+	roomID int,
+	customerID int,
 	checkout Date NOT NULL,
 	checkin Date NOT NULL,
 	payment bool NOT NULL,
@@ -122,27 +122,7 @@ Create table if not exists booking(
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (CheckOut > CheckIn)
-);
-
-DROP FUNCTION IF EXISTS check_booking_day();
-Create FUNCTION check_booking_day()
-	RETURNS TRIGGER as
-	$BODY$
-	BEGIN
-	-- Checks if check-in is before check-out date
-	IF NEW.checkin > NEW.checkout THEN
-		RAISE EXCEPTION 'Check-in date must be after check-out date';
-	END IF;
-	RETURN NEW;
-	END
-	$BODY$ LANGUAGE plpgsql;
-	
-DROP TRIGGER IF EXISTS update_booking ON booking;
-Create TRIGGER update_booking
-	BEFORE UPDATE ON booking
-	FOR EACH ROW
-	EXECUTE PROCEDURE check_booking_day();
-
+); 
 
 Drop table if exists renting cascade;
 Create table if not exists renting( 
@@ -161,10 +141,10 @@ Create table if not exists renting(
 
 Drop table if exists archives cascade;
 Create table if not exists archives (
-	archiveID int NOT NULL,
+	archiveID serial NOT NULL,
 	customerID int NOT NULL,
-	rentingID int NOT NULL,
-	bookingID int NOT NULL,
+	rentingID int,
+	bookingID int,
 	
 	PRIMARY KEY(archiveID),
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
@@ -172,3 +152,67 @@ Create table if not exists archives (
 	FOREIGN KEY(bookingID) REFERENCES booking ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+--Triggers and functions
+DROP FUNCTION if exists valid_booking;
+Create FUNCTION valid_booking()
+	RETURNS TRIGGER as
+	$BODY$
+	BEGIN
+	IF EXISTS(
+		SELECT* FROM booking
+		WHERE roomID=NEW.roomID
+		AND NEW.CheckIn<checkOut
+		AND NEW.checkOut>checkIn
+	) THEN
+		RAISE EXCEPTION 'Booking Already Exists In between that time frame';
+	END IF;
+	IF NEW.checkin>NEW.checkout THEN
+		RAISE EXCEPTION 'Booking Checkout is before Checkin';
+	END IF;
+	RETURN NEW;
+	END
+	$BODY$ LANGUAGE plpgsql;
+
+
+--DROP TRIGGER IF EXISTS update_booking ON booking;
+Create TRIGGER update_booking
+	BEFORE UPDATE ON booking
+	FOR EACH ROW
+	EXECUTE PROCEDURE valid_booking();
+
+
+--DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
+Create TRIGGER prevent_double_booking
+	BEFORE INSERT ON booking
+	FOR EACH ROW
+	EXECUTE PROCEDURE valid_booking();
+
+--Views
+
+--Groups by city and area
+Create view available_hotel_rooms_per_area as
+SELECT substring(hotel.hoteladdress FROM ',\s*(.*?),\s*,*$') as city, hotel.area, COUNT(room.RoomID) AS AvailableHotelRooms
+FROM hotel
+JOIN room ON hotel.hotelID = room.hotelID
+LEFT JOIN booking ON room.roomID = booking.roomID
+AND booking.bookingID is null -- room has no booking 
+AND booking.checkOut < CURRENT_DATE
+GROUP BY city, hotel.area;
+
+--Shows the capacity of the hotel
+Create view capacity_of_hotel as
+SELECT hotel.name,
+ SUM(CASE WHEN room.capacity = 'Single' THEN 1
+ 		  WHEN room.capacity = 'Double' THEN 2
+		  WHEN room.capacity = 'Suite' THEN 4
+		  ELSE 0
+	END) as TotalCapacity
+FROM hotel
+JOIN room on hotel.hotelID = room.roomID
+GROUP BY hotel.name;
+
+--Indexes
+Create index room_type ON room(capacity); -- Commonly people will search for a room with a certain capacity
+Create index price ON room(price); -- We will havea query that allows people to search by price of hotel
+Create index hotel_name ON hotel(name); --Have a query that alows for peple to search fora particular hotel brand name
+Create index hotel_rating ON hotel(category); -- We will have a query which allows customers to search by rating
