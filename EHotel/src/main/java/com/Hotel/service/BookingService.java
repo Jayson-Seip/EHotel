@@ -35,6 +35,7 @@ public class BookingService {
             statement.setDate(4, booking.getCheckinDate());
             statement.setBoolean(5, booking.getPayment());
 
+            statement.executeUpdate();
             statement.close();
             db.close();
 
@@ -55,7 +56,7 @@ public class BookingService {
      * Updates the booking of a hotel room
      * 
      * @param booking
-     * @return
+     * @return a message displaying if the update was successful
      */
     public String updateBooking(Booking booking) throws SQLException {
         String message = "";
@@ -68,7 +69,7 @@ public class BookingService {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
 
-            // the values for the database
+            // sets the values for the query for the database
             statement.setInt(1, booking.getRoomID());
             statement.setInt(2, booking.getCustomerID());
             statement.setDate(3, booking.getCheckoutDate());
@@ -76,6 +77,7 @@ public class BookingService {
             statement.setBoolean(5, booking.getPayment());
             statement.setInt(6, booking.getBookingID());
 
+            statement.executeUpdate(); // Runs the query
             statement.close();
             db.close();
 
@@ -90,6 +92,50 @@ public class BookingService {
 
         return message;
 
+    }
+
+    public String deleteBooking(int bookingID) throws SQLException {
+        String message = "";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+        String query = "DELETE FROM BOOKING WHERE bookingid=?";
+
+        try {
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.executeUpdate();
+            statement.close();
+
+        } catch (Exception e) {
+            message = "Error Deleting Booking";
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+            if (message.equals(""))
+                message = "Booking Sucessfully deleted";
+        }
+        return message;
+    }
+
+    // Using an aggergated query to retrieve the total cost
+    // Used by employee
+    public String getTotalCost(int bookingID) {
+        String message = "";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+
+        String query = "SELECT * FROM booking where bookingid=?";
+        try {
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+
+            statement.setInt(1, bookingID);
+
+        } catch (Exception e) {
+
+        }
+        return message;
     }
 
 }

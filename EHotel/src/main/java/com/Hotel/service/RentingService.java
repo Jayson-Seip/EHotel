@@ -1,4 +1,5 @@
 package com.Hotel.service;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,12 +15,12 @@ public class RentingService {
      * 
      * @return Confirmation message that renting was sucessful created
      */
-    public String createRenting(Renting renting) throws SQLException{
+    public String createRenting(Renting renting) throws SQLException {
         String message = "";
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query =  "INSERT INTO renting (rentingID, roomID, customerID, checkoutDate, checkinDate) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO renting (rentingID, roomID, customerID, checkoutDate, checkinDate) VALUES(?,?,?,?,?)";
 
         try {
             con = db.getConnection();
@@ -57,25 +58,32 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "insert renting SET roomID=?,customerID=?,checkoutDate=?,checkinDate=?";
+        String query1 = "insert INTO renting (roomID,customerID,checkout,checkin) Values(?,?,?,?)";
+        String query2 = "insert INTO archives()";
 
         try {
+            // Turns renting into a booking
             con = db.getConnection();
-            PreparedStatement statement = con.prepareStatement(query);
-
+            PreparedStatement statement = con.prepareStatement(query1);
             statement.setInt(1, booking.getRoomID());
             statement.setInt(2, booking.getCustomerID());
             statement.setDate(3, booking.getCheckoutDate());
             statement.setDate(4, booking.getCheckinDate());
+            statement.executeUpdate();
+            statement.close();
+            //
+
         } catch (Exception e) {
             message = "Error moving booking to renting";
         } finally {
             if (con != null)
                 con.close();
+            db.close();
             if (message.equals(""))
                 message = "Renting sucessfully updated";
         }
 
         return message;
     }
+
 }

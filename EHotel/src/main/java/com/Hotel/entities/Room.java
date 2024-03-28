@@ -6,11 +6,14 @@ public class Room {
     private double price;
     private boolean seaview;
     private boolean mountainview;
-    private int capacity;
+    private String capacity;
     private boolean extendable;
+    private String[] amenities;
+    private String[] problems;
+    private String hotelName;
 
-    public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, int capacity,
-            boolean extendable) {
+    public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, String capacity,
+            boolean extendable, String[] amenities, String[] problems, String hotelName) {
         this.roomID = roomID;
         this.hotelID = hotelID;
         this.price = price;
@@ -18,6 +21,9 @@ public class Room {
         this.mountainview = mountainview;
         this.capacity = capacity;
         this.extendable = extendable;
+        this.amenities = amenities;
+        this.problems = problems;
+        this.hotelName = hotelName;
     }
 
     public int getRoomID() {
@@ -40,11 +46,23 @@ public class Room {
         return mountainview;
     }
 
-    public int getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
     public boolean isExtendable() {
         return extendable;
+    }
+
+    public String[] getAmentites() {
+        return amenities;
+    }
+
+    public String[] getProblems() {
+        return problems;
+    }
+
+    public String getHotelName() {
+        return hotelName;
     }
 }

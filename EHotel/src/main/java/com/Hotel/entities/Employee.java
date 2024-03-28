@@ -6,7 +6,7 @@ public class Employee {
     private String fullname;
     private int salary;
     private int sin;
-    private String Address;
+    private String address;
 
     public Employee(int employeeID, int hotelID, String fullname, int salary, int sin, String address) {
         this.employeeID = employeeID;
@@ -14,7 +14,7 @@ public class Employee {
         this.fullname = fullname;
         this.salary = salary;
         this.sin = sin;
-        Address = address;
+        this.address = address;
     }
 
     public int getEmployeeID() {
@@ -38,7 +38,7 @@ public class Employee {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
 }

@@ -16,18 +16,19 @@ public class HotelService {
      * 
      * @return list of hotels
      */
-    public List<Hotel> getHotel() {
+    public List<Hotel> getAllHotel() {
         String sqlQuery = "SELECT * FROM HOTEL";
-
+        Connection con = null;
         ConnectionDB db = new ConnectionDB();
         List<Hotel> hotelChains = new ArrayList<>();
 
         try {
 
-            Connection connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sqlQuery);
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(sqlQuery);
 
-            ResultSet rSet = statement.executeQuery();
+            ResultSet rSet = statement.executeQuery();// Gets all the results from the query
+
             // Iterates through all the values from the query
             while (rSet.next()) {
                 Hotel hotel = new Hotel(rSet.getInt("hotelid"),
@@ -42,9 +43,10 @@ public class HotelService {
                 hotelChains.add(hotel);
 
             }
+
             rSet.close();
             statement.close();
-            connection.close();
+            con.close();
             db.close();
 
         } catch (Exception e) {
@@ -52,5 +54,26 @@ public class HotelService {
         }
 
         return hotelChains;
+    }
+
+    // Aggergated query MAX()
+    public List<Hotel> getMaxRatedHotel() {
+        String query = "SELECT MAX(category) FROM HOTEL";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+
+        try {
+
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            ResultSet rSet = statement.executeQuery();
+            while (rSet.next()) {
+
+            }
+        } catch (Exception e) {
+
+        }
+
+        return null;
     }
 }
