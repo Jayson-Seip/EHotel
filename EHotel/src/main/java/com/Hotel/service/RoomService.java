@@ -14,7 +14,8 @@ public class RoomService {
     // Use left join
     public List<Room> getAllRooms() {
 
-        String sqlQuery = "SELECT hotel.name as hotelName , room.*, amenities.amenities, problems.problems " +
+        String sqlQuery = "SELECT hotel.name as hotelName , hotel.hoteladdress, room.*, amenities.amenities, problems.problems "
+                +
                 "FROM room " +
                 "JOIN hotel on room.hotelid = hotel.hotelid " +
                 "LEFT JOIN (" +
@@ -51,7 +52,8 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             rSet.getString("amenities").split(","),
                             problem,
-                            rSet.getString("hotelname"));
+                            rSet.getString("hotelname"),
+                            rSet.getString("hoteladdress"));
                 }
                 // If hotel room has no amenities
                 else if (rSet.getString("amenities") == null) {
@@ -65,7 +67,8 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             amenities,
                             rSet.getString("problems").split(","),
-                            rSet.getString("hotelname"));
+                            rSet.getString("hotelname"),
+                            rSet.getString("hoteladdress"));
                 }
                 // If Room has no amenities or problems
                 else if (rSet.getString("amenities") == null && rSet.getString("problems") == null) {
@@ -79,8 +82,11 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             none,
                             none,
-                            rSet.getString("hotelname"));
-                } else {
+                            rSet.getString("hotelname"),
+                            rSet.getString("hoteladdress"));
+                }
+                // If room has both amenities or problems
+                else {
                     room = new Room(rSet.getInt("roomid"),
                             rSet.getInt("hotelid"),
                             rSet.getDouble("price"),
@@ -90,7 +96,8 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             rSet.getString("amenities").split(","),
                             rSet.getString("problems").split(","),
-                            rSet.getString("hotelname"));
+                            rSet.getString("hotelname"),
+                            rSet.getString("hoteladdress"));
 
                 }
                 rooms.add(room);

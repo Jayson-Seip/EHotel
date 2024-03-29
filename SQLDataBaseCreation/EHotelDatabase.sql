@@ -39,7 +39,8 @@ Create table if not exists Room(
 	extendable bool NOT NULL,
 	
 	PRIMARY KEY(roomID),
-	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE,
+	Check(price>=0);
 );
 
 Drop table if exists room_amenities cascade;
@@ -145,6 +146,8 @@ Create table if not exists archives (
 	customerID int NOT NULL,
 	rentingID int,
 	bookingID int,
+	checkin_date DATE,
+    checkout_date DATE,
 	
 	PRIMARY KEY(archiveID),
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
@@ -174,32 +177,51 @@ Create FUNCTION valid_booking()
 	$BODY$ LANGUAGE plpgsql;
 
 
---DROP TRIGGER IF EXISTS update_booking ON booking;
+DROP TRIGGER IF EXISTS update_booking ON booking;
 Create TRIGGER update_booking
 	BEFORE UPDATE ON booking
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_booking();
 
 
---DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
+DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
 Create TRIGGER prevent_double_booking
 	BEFORE INSERT ON booking
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_booking();
 
+Create FUNCTION valid_price()
+	RETURNS TRIGGER AS
+	$BODY$
+	BEGIN 
+	IF PRICE<0 THEN RAISE EXCEPTION 'Price cannot be negative';
+	END IF;
+	RETURN NEW;
+END $BODY$ LANGUAGE plpgsql;
+
+	
+DROP TRIGGER IF EXISTS create_room ON room;
+Create TRIGGER create_room
+	BEFORE INSERT OR UPDATE ON room
+	FOR EACH ROW
+	EXECUTE PROCEDURE valid_price();
+
+
 --Views
 
 --Groups by city and area
+DROP view if exists available_hotel_rooms_per_area; 
 Create view available_hotel_rooms_per_area as
-SELECT substring(hotel.hoteladdress FROM ',\s*(.*?),\s*,*$') as city, hotel.area, COUNT(room.RoomID) AS AvailableHotelRooms
+SELECT split_part(hotel.hoteladdress, ',', 2) as city, hotel.area, COUNT(room.RoomID) AS AvailableHotelRooms
 FROM hotel
 JOIN room ON hotel.hotelID = room.hotelID
 LEFT JOIN booking ON room.roomID = booking.roomID
-AND booking.bookingID is null -- room has no booking 
 AND booking.checkOut < CURRENT_DATE
-GROUP BY city, hotel.area;
+GROUP BY city, hotel.area
+ORDER BY city;
 
---Shows the capacity of the hotel
+--Shows the capacity of the hotels based on room capacity
+DROP view if EXISTS capacity_of_hotel;
 Create view capacity_of_hotel as
 SELECT hotel.name,
  SUM(CASE WHEN room.capacity = 'Single' THEN 1
@@ -208,8 +230,9 @@ SELECT hotel.name,
 		  ELSE 0
 	END) as TotalCapacity
 FROM hotel
-JOIN room on hotel.hotelID = room.roomID
-GROUP BY hotel.name;
+JOIN room on hotel.hotelID = room.hotelID
+GROUP BY hotel.name
+ORDER BY hotel.name;
 
 --Indexes
 Create index room_type ON room(capacity); -- Commonly people will search for a room with a certain capacity

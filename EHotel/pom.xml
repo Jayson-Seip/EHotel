@@ -23,21 +23,18 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.5.4</version>
+      <version>42.7.3</version>
     </dependency>
 
   </dependencies>
   <build>
     <finalName>EHotel</finalName>
     <plugins>
-      <!-- Plugins go here -->
       <plugin>
           <groupId>org.apache.tomcat.maven</groupId>
           <artifactId>tomcat-maven-plugin</artifactId>
           <version>10.1.19</version>
           <configuration>
-              <!-- Configuration options for the Tomcat Maven Plugin -->
-              <!-- Example configuration options -->
               <url>http://localhost:8080/manager/text</url>
               <server>TomcatServer</server>
               <path>/EHotel</path>
