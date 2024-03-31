@@ -11,9 +11,10 @@ public class Room {
     private String[] amenities;
     private String[] problems;
     private String hotelName;
+    private String hotelAddress;
 
     public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, String capacity,
-            boolean extendable, String[] amenities, String[] problems, String hotelName) {
+            boolean extendable, String[] amenities, String[] problems, String hotelName, String hotelAddress) {
         this.roomID = roomID;
         this.hotelID = hotelID;
         this.price = price;
@@ -24,6 +25,7 @@ public class Room {
         this.amenities = amenities;
         this.problems = problems;
         this.hotelName = hotelName;
+        this.hotelAddress = hotelAddress;
     }
 
     public int getRoomID() {
@@ -64,5 +66,9 @@ public class Room {
 
     public String getHotelName() {
         return hotelName;
+    }
+
+    public String getHotelAddress() {
+        return hotelAddress;
     }
 }

@@ -17,7 +17,7 @@ public class HotelService {
      * @return list of hotels
      */
     public List<Hotel> getAllHotel() {
-        String sqlQuery = "SELECT * FROM HOTEL";
+        String sqlQuery = "SELECT * FROM HOTEL";// SQL query that will be run
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
         List<Hotel> hotelChains = new ArrayList<>();
@@ -25,7 +25,7 @@ public class HotelService {
         try {
 
             con = db.getConnection();
-            PreparedStatement statement = con.prepareStatement(sqlQuery);
+            PreparedStatement statement = con.prepareStatement(sqlQuery); // the code that will be run in SQL
 
             ResultSet rSet = statement.executeQuery();// Gets all the results from the query
 
