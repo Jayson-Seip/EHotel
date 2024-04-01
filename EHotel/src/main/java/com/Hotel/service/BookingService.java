@@ -118,24 +118,4 @@ public class BookingService {
         return message;
     }
 
-    // Using an aggergated query to retrieve the total cost
-    // Used by employee
-    public String getTotalCost(int bookingID) {
-        String message = "";
-        Connection con = null;
-        ConnectionDB db = new ConnectionDB();
-
-        String query = "SELECT * FROM booking where bookingid=?";
-        try {
-            con = db.getConnection();
-            PreparedStatement statement = con.prepareStatement(query);
-
-            statement.setInt(1, bookingID);
-
-        } catch (Exception e) {
-
-        }
-        return message;
-    }
-
 }

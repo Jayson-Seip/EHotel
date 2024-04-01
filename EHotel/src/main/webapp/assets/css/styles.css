@@ -15,5 +15,12 @@
 
 }
 .table-container{
-margin-left: 50px
+width: 100%;
+margin-left: 50px;
+}
+.submit-button{
+width: 150px; /* Set the width of the button */
+        height: 50px; /* Set the height of the button */
+        font-size: 18px; /* Set the font size of the button text */
+        padding: 10px;
 }

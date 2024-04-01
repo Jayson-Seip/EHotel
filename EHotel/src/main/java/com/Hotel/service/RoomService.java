@@ -32,7 +32,7 @@ public class RoomService {
         ConnectionDB db = new ConnectionDB();
 
         StringBuilder query = new StringBuilder(
-                "SELECT hotel.name as hotelName , hotel.hoteladdress, room.*, amenities.amenities, problems.problems "
+                "SELECT hotel.*, room.*, amenities.amenities, problems.problems "
                         +
                         "FROM room " +
                         "JOIN hotel on room.hotelid = hotel.hotelid " +
@@ -49,7 +49,8 @@ public class RoomService {
         // Condtions to search by
 
         boolean condition = false;
-        if (city != null) {
+
+        if (city != null ) {
             query.append(condition ? " AND " : " WHERE ");
             query.append("split_part(hotel.hoteladdress, ',', 2) = " + "' " + city + "'");
             condition = true;
@@ -71,7 +72,7 @@ public class RoomService {
         }
         if (area != null) {
             query.append(condition ? " AND " : " WHERE ");
-            query.append("hotel.area = '" + hotelChain + "'");
+            query.append("hotel.area = '" + area + "'");
             condition = true;
         }
         if (hotelChain != null) {
@@ -81,7 +82,12 @@ public class RoomService {
         }
         if (category != null) {
             query.append(condition ? " AND " : " WHERE ");
-            query.append("hotel.category = " + category);
+            query.append("hotel.category >= " + category);
+            condition = true;
+        }
+        if (numRooms != null) {
+            query.append(condition ? " AND " : " WHERE ");
+            query.append("(SELECT COUNT(*) FROM room r WHERE r.hotelid = hotel.hotelid) = " + numRooms);
             condition = true;
         }
         if (startDate != null && endDate != null) {
@@ -91,7 +97,7 @@ public class RoomService {
                     "  FROM booking " +
                     "  WHERE booking.checkOut > '" + startDate + "' OR booking.checkIn <= '" + endDate +
                     "' )");
-            condition = true;
+
         }
         query.append(" ORDER BY room.roomid asc; ");
 
@@ -99,6 +105,7 @@ public class RoomService {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query.toString());
             ResultSet rSet = statement.executeQuery();
+            System.out.println(query);
             while (rSet.next()) {
                 Room room = null;
                 // If the room has no problems
@@ -113,8 +120,12 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             rSet.getString("amenities").split(","),
                             problem,
-                            rSet.getString("hotelname"),
-                            rSet.getString("hoteladdress"));
+                            rSet.getString("name"),
+                            rSet.getString("hoteladdress"),
+                            rSet.getString("email"),
+                            null,
+                            rSet.getString("area"),
+                    rSet.getInt("category"));
                 }
                 // If hotel room has no amenities
                 else if (rSet.getString("amenities") == null) {
@@ -128,8 +139,12 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             amenities,
                             rSet.getString("problems").split(","),
-                            rSet.getString("hotelname"),
-                            rSet.getString("hoteladdress"));
+                            rSet.getString("name"),
+                            rSet.getString("hoteladdress"),
+                            rSet.getString("email"),
+                            rSet.getString("phonenumber"),
+                            rSet.getString("area"),
+                            rSet.getInt("category"));
                 }
                 // If Room has no amenities or problems
                 else if (rSet.getString("amenities") == null && rSet.getString("problems") == null) {
@@ -143,8 +158,12 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             none,
                             none,
-                            rSet.getString("hotelname"),
-                            rSet.getString("hoteladdress"));
+                            rSet.getString("name"),
+                            rSet.getString("hoteladdress"),
+                            rSet.getString("email"),
+                            rSet.getString("phonenumber"),
+                            rSet.getString("area"),
+                            rSet.getInt("category"));
                 }
                 // If room has both amenities or problems
                 else {
@@ -157,18 +176,24 @@ public class RoomService {
                             rSet.getBoolean("extendable"),
                             rSet.getString("amenities").split(","),
                             rSet.getString("problems").split(","),
-                            rSet.getString("hotelname"),
-                            rSet.getString("hoteladdress"));
+                            rSet.getString("name"),
+                            rSet.getString("hoteladdress"),
+                            rSet.getString("email"),
+                            rSet.getString("phonenumber"),
+                            rSet.getString("area"),
+                            rSet.getInt("category"));
 
                 }
                 rooms.add(room);
             }
+
+
             rSet.close();
             statement.close();
             con.close();
             db.close();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return rooms;
 

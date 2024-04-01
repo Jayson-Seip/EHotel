@@ -38,6 +38,7 @@
               <url>http://localhost:8080/manager/text</url>
               <server>TomcatServer</server>
               <path>/EHotel</path>
+              <relodable>true</relodable>
           </configuration>
       </plugin>
   </plugins>

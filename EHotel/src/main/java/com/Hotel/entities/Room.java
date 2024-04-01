@@ -12,9 +12,14 @@ public class Room {
     private String[] problems;
     private String hotelName;
     private String hotelAddress;
+    private String email;
+    private String phoneNumber;
+    private String area;
+    private int rating;
 
     public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, String capacity,
-            boolean extendable, String[] amenities, String[] problems, String hotelName, String hotelAddress) {
+            boolean extendable, String[] amenities, String[] problems, String hotelName, String hotelAddress,
+                String email,String phoneNumber,String area, int rating) {
         this.roomID = roomID;
         this.hotelID = hotelID;
         this.price = price;
@@ -26,6 +31,10 @@ public class Room {
         this.problems = problems;
         this.hotelName = hotelName;
         this.hotelAddress = hotelAddress;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.area=area;
+        this.rating=rating;
     }
 
     public int getRoomID() {
@@ -56,12 +65,22 @@ public class Room {
         return extendable;
     }
 
-    public String[] getAmentites() {
-        return amenities;
+    public String getAmenities() {
+        String str="";
+        for(String s : amenities){
+            str+=", "+s;
+        }
+
+        return str;
     }
 
-    public String[] getProblems() {
-        return problems;
+    public String getProblems() {
+        String str="";
+        for(String s : problems){
+            str+=s+", ";
+        }
+
+        return str;
     }
 
     public String getHotelName() {
@@ -70,5 +89,21 @@ public class Room {
 
     public String getHotelAddress() {
         return hotelAddress;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public int getRating(){
+        return rating;
+    }
+
+    public String getArea(){
+        return area;
     }
 }

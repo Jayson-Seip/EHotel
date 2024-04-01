@@ -51,6 +51,7 @@ public class HotelService {
 
         } catch (Exception e) {
             System.out.println("Fail to Connect to Database");
+            e.printStackTrace();
         }
 
         return hotelChains;
