@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,14 +7,14 @@
     <link rel="stylesheet" href="EHotel\src\main\webapp\assets\bootstrap\css\bootstrap.min.css">
 </head>
 <body>
-    <!-- Your HTML content here -->
-    
-    <h1>EHotel</h1>
-    <p>Are you an employee or customer</p>
+
+    <h1>Customer Page</h1>
+    <p>What would you like to do</p>
     <div>
-        <a href="customer-view.jsp"><button>Customer</button></a>
-        <a href="employee-view.jsp"><button>Employee</button></a>
+        <a href="customer-search.jsp"><button>Search for a room</button></a>
     </div>
+
+
 
     <script src="EHotel\src\main\webapp\assets\bootstrap\js\bootstrap.min.js"></script>
 </body>
