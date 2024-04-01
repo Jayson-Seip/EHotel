@@ -51,7 +51,7 @@
 
             rooms = roomService.roomSearch(city,lowerPrice,upperPrice,startDate,endDate,capacity,area,hotelChain,category,numRooms);
             request.setAttribute("rooms", rooms);
-            request.getRequestDispatcher("customer.jsp").forward(request, response);
+            request.getRequestDispatcher("customer-search.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();

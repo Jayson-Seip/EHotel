@@ -105,7 +105,6 @@ public class RoomService {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query.toString());
             ResultSet rSet = statement.executeQuery();
-            System.out.println(query);
             while (rSet.next()) {
                 Room room = null;
                 // If the room has no problems
