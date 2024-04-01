@@ -22,7 +22,7 @@ public class BookingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO booking (roomID, customerID,checkout,checkin, payment, paymentType) VALUES(?,?,?,?,?,?)";
+        String query = "INSERT INTO booking (roomID, customerID,checkout,checkin, payment, paymentType) VALUES(?,?,?,?,?,?);";
 
         try {
             con = db.getConnection();
@@ -37,11 +37,13 @@ public class BookingService {
             statement.setString(6,booking.getPaymentType());
 
             statement.executeUpdate();
+            System.out.println("hello");
             statement.close();
             db.close();
 
         } catch (Exception e) {
             message = "Error Creating booking";
+            e.printStackTrace();
         } finally {
             if (con != null)
                 con.close();

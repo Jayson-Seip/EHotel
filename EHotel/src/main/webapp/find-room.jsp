@@ -24,34 +24,33 @@
 
         try {
         if(hotelChain == null || hotelChain.trim().isEmpty()){
-                hotelChain = null;
-                }
-                if(city==null || city.trim().isEmpty()){
-                city=null;
-                }
-            if (request.getParameter("lowerPrice") != null && !request.getParameter("lowerPrice").isEmpty()) {
-                lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
-            }
-            if (request.getParameter("upperPrice") != null && !request.getParameter("upperPrice").isEmpty()) {
-                upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
-            }
-            if (request.getParameter("startDate") != null && !request.getParameter("startDate").isEmpty()) {
-                startDate = Date.valueOf(request.getParameter("startDate"));
-            }
-            if (request.getParameter("endDate") != null && !request.getParameter("endDate").isEmpty()) {
-                endDate = Date.valueOf(request.getParameter("endDate"));
-            }
-            if (request.getParameter("category") != null && !request.getParameter("category").isEmpty()) {
-                category = Integer.parseInt(request.getParameter("category"));
-            }
-            if (request.getParameter("numRooms") != null && !request.getParameter("numRooms").isEmpty()) {
-                numRooms = Integer.parseInt(request.getParameter("numRooms"));
-            }
+            hotelChain = null;
+        }
+        if(city==null || city.trim().isEmpty()){
+            city=null;
+        }
+        if (request.getParameter("lowerPrice") != null && !request.getParameter("lowerPrice").isEmpty()) {
+            lowerPrice = Double.parseDouble(request.getParameter("lowerPrice"));
+        }
+        if (request.getParameter("upperPrice") != null && !request.getParameter("upperPrice").isEmpty()) {
+            upperPrice = Double.parseDouble(request.getParameter("upperPrice"));
+        }
+        if (request.getParameter("startDate") != null && !request.getParameter("startDate").isEmpty()) {
+            startDate = Date.valueOf(request.getParameter("startDate"));
+        }
+        if (request.getParameter("endDate") != null && !request.getParameter("endDate").isEmpty()) {
+            endDate = Date.valueOf(request.getParameter("endDate"));
+        }
+        if (request.getParameter("category") != null && !request.getParameter("category").isEmpty()) {
+            category = Integer.parseInt(request.getParameter("category"));
+        }
+        if (request.getParameter("numRooms") != null && !request.getParameter("numRooms").isEmpty()) {
+            numRooms = Integer.parseInt(request.getParameter("numRooms"));
+        }
 
-
-            rooms = roomService.roomSearch(city,lowerPrice,upperPrice,startDate,endDate,capacity,area,hotelChain,category,numRooms);
-            request.setAttribute("rooms", rooms);
-            request.getRequestDispatcher("customer-search.jsp").forward(request, response);
+        rooms = roomService.roomSearch(city,lowerPrice,upperPrice,startDate,endDate,capacity,area,hotelChain,category,numRooms);
+        request.setAttribute("rooms", rooms);
+        request.getRequestDispatcher("customer-search.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();

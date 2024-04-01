@@ -21,20 +21,23 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO renting (rentingID, roomID, customerID, checkoutDate, checkinDate, paymentType) VALUES(?,?,?,?,?,?)";
+        String query = "INSERT INTO renting (roomID, customerID, checkout, checkin, paymentType) VALUES(?,?,?,?,?);";
 
         try {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
 
-            statement.setInt(1, renting.getRentingID());
-            statement.setInt(2, renting.getRoomID());
-            statement.setInt(3, renting.getCustomerID());
-            statement.setDate(4, renting.getCheckoutDate());
-            statement.setDate(5, renting.getCheckinDate());
-            statement.setString(6,renting.getPaymentType());
+            statement.setInt(1, renting.getRoomID());
+            statement.setInt(2, renting.getCustomerID());
+            statement.setDate(3, renting.getCheckoutDate());
+            statement.setDate(4, renting.getCheckinDate());
+            statement.setString(5,renting.getPaymentType());
+
+            statement.executeUpdate();
+
 
             statement.close();
+            db.close();
 
         } catch (Exception e) {
             message = "Error creating renting";
