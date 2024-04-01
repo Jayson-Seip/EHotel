@@ -40,7 +40,7 @@ Create table if not exists Room(
 	
 	PRIMARY KEY(roomID),
 	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE,
-	Check(price>=0);
+	Check(price>=0)
 );
 
 Drop table if exists room_amenities cascade;
@@ -60,8 +60,8 @@ Create table if not exists room_problems(
 	PRIMARY KEY(roomID,problem),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE
 );
-	
-	
+
+
 
 Drop table if exists employee cascade;
 Create table if not exists employee(
@@ -71,10 +71,10 @@ Create table if not exists employee(
 	address varchar(45) NOT NULL,
 	salary int NOT NULL,
 	hotelID int NOT NULL,
-	
+
 	PRIMARY KEY(employeeID),
 	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE,
-	check(Length(cast(SIN as VARCHAR)) = 9)	
+	check(Length(cast(SIN as VARCHAR)) = 9)
 );
 
 Drop table if exists positions cascade;
@@ -82,22 +82,22 @@ Create table if not exists positions(
 	postionID int NOT NULL,
 	employeeID int NOT NULL,
 	postion varchar(20) NOT NULL,
-	
+
 	PRIMARY KEY(postionID),
 	FOREIGN KEY(employeeID) REFERENCES employee ON DELETE CASCADE ON UPDATE CASCADE
-	
+
 );
 
 Drop table if exists works_as cascade;
 Create table if not exists works_as(
 	employeeID int NOT NULL,
 	positionID int NOT NULL,
-	
+
 	PRIMARY KEY(employeeID, positionID),
 	FOREIGN KEY(EmployeeID) REFERENCES employee ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(positionID) REFERENCES positions ON DELETE CASCADE ON UPDATE CASCADE
 );
-	
+
 Drop table if exists customer cascade;
 Create table if not exists customer(
 	customerID int NOT NULL,
@@ -105,9 +105,9 @@ Create table if not exists customer(
 	address varchar(45) NOT NULL,
 	registration bool NOT NULL,
 	ID int NOT NULL,
-	
+
 	PRIMARY KEY(customerID)
-	
+
 );
 
 Drop table if exists booking cascade;
@@ -119,22 +119,22 @@ Create table if not exists booking(
 	checkin Date NOT NULL,
 	payment bool NOT NULL,
 	paymentType varchar(45),
-	
+
 	PRIMARY KEY(bookingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (CheckOut > CheckIn)
-); 
+);
 
 Drop table if exists renting cascade;
-Create table if not exists renting( 
+Create table if not exists renting(
 	rentingID SERIAL NOT NULL,
 	roomID int NOT NULL,
 	customerID int NOT NULL,
 	checkout Date NOT NULL,
 	checkin Date NOT NULL,
 	paymentType varchar(45),
-	
+
 	PRIMARY KEY(rentingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
@@ -150,7 +150,7 @@ Create table if not exists archives (
 	checkin_date DATE,
     checkout_date DATE,
     paymentType varchar(45),
-	
+
 	PRIMARY KEY(archiveID),
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(rentingID) REFERENCES renting ON DELETE CASCADE ON UPDATE CASCADE,
@@ -192,6 +192,7 @@ Create TRIGGER prevent_double_booking
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_booking();
 
+DROP FUNCTION IF EXISTS valid_price;
 Create FUNCTION valid_price()
 	RETURNS TRIGGER AS
 	$BODY$
