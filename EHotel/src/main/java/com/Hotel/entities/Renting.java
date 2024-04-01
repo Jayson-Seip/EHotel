@@ -8,13 +8,15 @@ public class Renting {
     private int customerID;
     private Date checkoutDate;
     private Date checkinDate;
+    private String paymentType;
 
-    public Renting(int rentingID, int roomID, int customerID, Date checkoutDate, Date checkinDate) {
+    public Renting(int rentingID, int roomID, int customerID, Date checkoutDate, Date checkinDate, String paymentType) {
         this.rentingID = rentingID;
         this.roomID = roomID;
         this.customerID = customerID;
         this.checkoutDate = checkoutDate;
         this.checkinDate = checkinDate;
+        this.paymentType=paymentType;
     }
 
     public int getRentingID() {
@@ -35,6 +37,10 @@ public class Renting {
 
     public Date getCheckinDate() {
         return checkinDate;
+    }
+
+    public String getPaymentType(){
+        return paymentType;
     }
 
 }

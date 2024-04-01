@@ -9,15 +9,17 @@ public class Booking {
     private Date checkoutDate;
     private Date checkinDate;
     private boolean payment;
+    private String paymentType;
 
     public Booking(int bookingID, int roomID, int customerID, Date checkoutDate, Date checkinDate,
-            boolean payment) {
+            boolean payment, String paymentType) {
         this.bookingID = bookingID;
         this.roomID = roomID;
         this.customerID = customerID;
         this.checkoutDate = checkoutDate;
         this.checkinDate = checkinDate;
         this.payment = payment;
+        this.paymentType=paymentType;
     }
 
     public int getBookingID() {
@@ -42,6 +44,10 @@ public class Booking {
 
     public boolean getPayment() {
         return payment;
+    }
+
+    public String getPaymentType(){
+        return paymentType;
     }
 
 }

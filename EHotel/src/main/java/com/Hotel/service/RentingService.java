@@ -21,7 +21,7 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO renting (rentingID, roomID, customerID, checkoutDate, checkinDate) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO renting (rentingID, roomID, customerID, checkoutDate, checkinDate, paymentType) VALUES(?,?,?,?,?,?)";
 
         try {
             con = db.getConnection();
@@ -32,6 +32,7 @@ public class RentingService {
             statement.setInt(3, renting.getCustomerID());
             statement.setDate(4, renting.getCheckoutDate());
             statement.setDate(5, renting.getCheckinDate());
+            statement.setString(6,renting.getPaymentType());
 
             statement.close();
 
@@ -57,14 +58,14 @@ public class RentingService {
      * @param booking
      * @return confirmation message that check-in was sucessful
      */
-    public String bookingToRenting(Booking booking) throws SQLException {
+    public String bookingToRenting(Booking booking, String updatedPayment) throws SQLException {
         String message = "";
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query1 = "INSERT INTO renting (roomID,customerID,checkout,checkin) Values(?,?,?,?)";
-        String query2 = "INSERT INTO archives(customerID,bookingID,rentingID,checkin, checkout) Values (?,?,null,?,null)";
-        String query3 = "UPDATE booking SET payment=true WHERE bookingID=?";
+        String query1 = "INSERT INTO renting (roomID,customerID,checkout,checkin, paymentType) Values(?,?,?,?,?)";
+        String query2 = "INSERT INTO archives(customerID,bookingID,rentingID,checkin, checkout,paymentType) Values (?,?,null,?,null,null)";
+        String query3 = "UPDATE booking SET payment=true, paymentType =? WHERE bookingID=?";
 
         try {
             // Turns renting into a booking
@@ -74,6 +75,7 @@ public class RentingService {
             statement.setInt(2, booking.getCustomerID());
             statement.setDate(3, booking.getCheckoutDate());
             statement.setDate(4, booking.getCheckinDate());
+            statement.setString(5,booking.getPaymentType());
             statement.executeUpdate();
             statement.close();
 
@@ -88,6 +90,7 @@ public class RentingService {
             // Sets payment to true inorder to get the check in
             PreparedStatement statement3 = con.prepareStatement(query3);
             statement3.setInt(1, booking.getBookingID());
+            statement3.setString(2,updatedPayment);
             statement3.executeUpdate();
             statement3.close();
 

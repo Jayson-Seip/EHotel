@@ -118,6 +118,7 @@ Create table if not exists booking(
 	checkout Date NOT NULL,
 	checkin Date NOT NULL,
 	payment bool NOT NULL,
+	paymentType varchar(45),
 	
 	PRIMARY KEY(bookingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
@@ -132,12 +133,12 @@ Create table if not exists renting(
 	customerID int NOT NULL,
 	checkout Date NOT NULL,
 	checkin Date NOT NULL,
+	paymentType varchar(45),
 	
 	PRIMARY KEY(rentingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
 	CHECK (checkOut > checkIn)
-	
 );
 
 Drop table if exists archives cascade;
@@ -148,6 +149,7 @@ Create table if not exists archives (
 	bookingID int,
 	checkin_date DATE,
     checkout_date DATE,
+    paymentType varchar(45),
 	
 	PRIMARY KEY(archiveID),
 	FOREIGN KEY(customerID) REFERENCES customer ON DELETE CASCADE ON UPDATE CASCADE,
