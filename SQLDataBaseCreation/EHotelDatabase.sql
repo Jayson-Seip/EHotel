@@ -197,12 +197,12 @@ Create FUNCTION valid_price()
 	RETURNS TRIGGER AS
 	$BODY$
 	BEGIN 
-	IF PRICE<0 THEN RAISE EXCEPTION 'Price cannot be negative';
+	IF NEW.price<0 THEN RAISE EXCEPTION 'Price cannot be negative';
 	END IF;
 	RETURN NEW;
 END $BODY$ LANGUAGE plpgsql;
 
-	
+
 DROP TRIGGER IF EXISTS create_room ON room;
 Create TRIGGER create_room
 	BEFORE INSERT OR UPDATE ON room
@@ -213,7 +213,7 @@ Create TRIGGER create_room
 --Views
 
 --Groups by city and area
-DROP view if exists available_hotel_rooms_per_area; 
+DROP view if exists available_hotel_rooms_per_area;
 Create view available_hotel_rooms_per_area as
 SELECT split_part(hotel.hoteladdress, ',', 2) as city, hotel.area, COUNT(room.RoomID) AS AvailableHotelRooms
 FROM hotel
@@ -239,6 +239,6 @@ ORDER BY hotel.name;
 
 --Indexes
 Create index room_type ON room(capacity); -- Commonly people will search for a room with a certain capacity
-Create index price ON room(price); -- We will havea query that allows people to search by price of hotel
-Create index hotel_name ON hotel(name); --Have a query that alows for peple to search fora particular hotel brand name
+Create index price ON room(price); -- We will have a query that allows people to search by price of hotel
+Create index hotel_name ON hotel(name); --Have a query that allows for people to search fora particular hotel brand name
 Create index hotel_rating ON hotel(category); -- We will have a query which allows customers to search by rating
