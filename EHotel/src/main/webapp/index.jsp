@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bootstrap Website</title>
+    <title>EHotel</title>
     <link rel="stylesheet" href="EHotel\src\main\webapp\assets\bootstrap\css\bootstrap.min.css">
 </head>
 <body>
     <!-- Your HTML content here -->
     
-    <h1>Welcome to Our Website</h1>
-    <p>Please select your role:</p>
+    <h1>EHotel</h1>
+    <p>Are tou an employee or customer</p>
     <div>
         <a href="customer.jsp"><button>Customer</button></a>
         <a href="employee.jsp"><button>Employee</button></a>

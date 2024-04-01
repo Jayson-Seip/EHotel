@@ -7,13 +7,14 @@
 <%@ page import="java.sql.Date"%>
 
 <%
-System.out.println(request.getParameter("roomID"));
 if ("createBooking".equals(request.getParameter("bookForm"))){
     BookingService bservice = new BookingService();
     Date startDate = null;
     Date endDate = null;
     Integer custID = null;
     Integer roomID = null;
+    boolean payment = false;
+    String paymentType = null;
 
     if (request.getParameter("startDate") != null && !request.getParameter("startDate").isEmpty()) {
         startDate = Date.valueOf(request.getParameter("startDate"));
@@ -27,14 +28,19 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
     if (request.getParameter("roomID") != null && !request.getParameter("roomID").isEmpty()) {
         roomID = Integer.parseInt(request.getParameter("roomID"));
     }
+    if(request.getParameter("paymentOption").equals("Now")){
+    System.out.println("Payment Option: " + request.getParameter("paymentOption"));
+        payment = true;
+        paymentType = request.getParameter("paymentType");
+        System.out.println(paymentType);
+    }
+
     if(startDate == null || endDate==null||custID==null||roomID==null){
-    System.out.println(startDate);
-    System.out.println(roomID);
-        System.out.println("Error");
-        response.sendRedirect("customer.jsp");
+        System.out.println("Booking not Created");
+        response.sendRedirect("book-room.jsp");
     }
     else{
-    Booking booking = new Booking(0,roomID,custID,endDate,startDate,false);
+    Booking booking = new Booking(0,roomID,custID,endDate,startDate,payment,paymentType);
         bservice.createBooking(booking);
         response.sendRedirect("customer.jsp");
     }
@@ -50,7 +56,19 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script>
+            function togglePaymentType() {
+                var paymentOption = document.getElementById("paymentOption");
+                var paymentType = document.getElementById("paymentType");
 
+                if (paymentOption.value === "Now") {
+                    paymentType.disabled = false;
+                } else {
+                    paymentType.disabled = true;
+                    paymentType.value = ""; // Clear the payment type value
+                }
+            }
+        </script>
 
 </head>
 
@@ -69,6 +87,18 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
 
     <label for="endDate">End Date:</label>
     <input type="date" id="endDate" name="endDate"><br>
+
+     <label for="paymentOption">Payment Option:</label>
+        <select id="paymentOption" name="paymentOption" onchange="togglePaymentType()">
+            <option value="Now">Pay Now</option>
+            <option value="Later">Pay Later</option>
+        </select><br>
+
+        <label for="paymentType">Payment Type:</label>
+        <select id="paymentType" name="paymentType" disabled>
+            <option value="CreditCard">Credit Card</option>
+            <option value="DebitCard">Debit Card</option>
+        </select><br>
 
     <button class ="submit-button" type ="submit"><Create Booking></button>
 </form>

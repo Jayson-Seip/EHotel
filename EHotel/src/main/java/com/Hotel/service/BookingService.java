@@ -22,7 +22,7 @@ public class BookingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO booking (roomID, customerID,checkout,checkin, payment) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO booking (roomID, customerID,checkout,checkin, payment, paymentType) VALUES(?,?,?,?,?,?)";
 
         try {
             con = db.getConnection();
@@ -34,6 +34,7 @@ public class BookingService {
             statement.setDate(3, booking.getCheckoutDate());
             statement.setDate(4, booking.getCheckinDate());
             statement.setBoolean(5, booking.getPayment());
+            statement.setString(6,booking.getPaymentType());
 
             statement.executeUpdate();
             statement.close();

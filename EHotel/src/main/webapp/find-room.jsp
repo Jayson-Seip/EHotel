@@ -22,8 +22,6 @@
            Integer category = null;
            Integer numRooms = null;
 
-
-
         try {
         if(hotelChain == null || hotelChain.trim().isEmpty()){
                 hotelChain = null;
