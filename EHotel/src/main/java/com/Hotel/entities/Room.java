@@ -16,7 +16,17 @@ public class Room {
     private String phoneNumber;
     private String area;
     private int rating;
+    public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, String capacity,
+                boolean extendable){
+        this.roomID = roomID;
+        this.hotelID = hotelID;
+        this.price = price;
+        this.seaview = seaview;
+        this.mountainview = mountainview;
+        this.capacity = capacity;
+        this.extendable = extendable;
 
+    }
     public Room(int roomID, int hotelID, double price, boolean seaview, boolean mountainview, String capacity,
             boolean extendable, String[] amenities, String[] problems, String hotelName, String hotelAddress,
                 String email,String phoneNumber,String area, int rating) {

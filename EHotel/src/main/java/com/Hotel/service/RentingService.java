@@ -77,6 +77,7 @@ public class RentingService {
 
         } catch (Exception e) {
             message = "Error creating renting";
+            e.printStackTrace();
         } finally {
             if (con != null) {
                 con.close();

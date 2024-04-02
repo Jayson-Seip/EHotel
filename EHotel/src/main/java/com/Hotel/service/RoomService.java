@@ -62,6 +62,7 @@ public class RoomService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
+        //Nested Query
         StringBuilder query = new StringBuilder(
                 "SELECT hotel.*, room.*, amenities.amenities, problems.problems "
                         +
@@ -77,7 +78,7 @@ public class RoomService {
                         "FROM room_problems " +
                         "GROUP BY roomID) AS problems ON room.roomID = problems.roomID ");
 
-        // Condtions to search by
+        // Conditions to search by
 
         boolean condition = false;
 
@@ -116,11 +117,13 @@ public class RoomService {
             query.append("hotel.category >= " + category);
             condition = true;
         }
+        // Query with aggregation
         if (numRooms != null) {
             query.append(condition ? " AND " : " WHERE ");
             query.append("(SELECT COUNT(*) FROM room r WHERE r.hotelid = hotel.hotelid) = " + numRooms);
             condition = true;
         }
+        //query with nested query
         if (startDate != null && endDate != null) {
             query.append(condition ? " AND " : " WHERE ");
             query.append("room.roomid NOT IN (" +
@@ -217,7 +220,6 @@ public class RoomService {
                 rooms.add(room);
             }
 
-
             rSet.close();
             statement.close();
             con.close();
@@ -258,7 +260,7 @@ public class RoomService {
             db.close();
             if (message.equals(""))
                 message = "Room Sucessful Created";
-
+            System.out.println(message);
         }
         return message;
     }
