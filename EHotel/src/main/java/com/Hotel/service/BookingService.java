@@ -1,8 +1,6 @@
 package com.Hotel.service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import com.Hotel.db.ConnectionDB;
 import com.Hotel.entities.Booking;
@@ -120,5 +118,39 @@ public class BookingService {
         }
         return message;
     }
+
+    public Booking getBooking(int bookingID){
+        Connection con = null;
+        Booking booking = null;
+        ConnectionDB db = new ConnectionDB();
+        String query = "SELECT * FROM booking WHERE bookingID=?";
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1,bookingID);
+
+            ResultSet resultSet = statement.executeQuery();
+            System.out.println("Hello");
+
+            while(resultSet.next()){
+                booking = new Booking(resultSet.getInt("bookingID"),
+                        resultSet.getInt("roomID"),
+                        resultSet.getInt("customerID"),
+                        resultSet.getDate("checkout"),
+                        resultSet.getDate("checkin"),
+                        resultSet.getBoolean("payment"),
+                        resultSet.getString("paymentType"));
+            }
+            System.out.println("Pen"+booking.getBookingID());
+            statement.close();
+            db.close();
+            con.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return booking;
+    }
+
 
 }

@@ -16,6 +16,7 @@
     <div>
         <a href="customer-view.jsp"><button>Customer</button></a>
         <a href="employee-view.jsp"><button>Employee</button></a>
+        <a href="create-customer.jsp"<button>Create new Customer</button></a>
     </div>
 
     <script src="EHotel\src\main\webapp\assets\bootstrap\js\bootstrap.min.js"></script>

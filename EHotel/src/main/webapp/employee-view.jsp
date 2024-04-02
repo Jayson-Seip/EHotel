@@ -16,5 +16,6 @@
 <body>
     <h1> hello employee </h1>
     <a href="create-renting.jsp"><button> Create Renting</button></a>
+    <a href="employee-search.jsp"><button>check in customer</button></a>
 <body>
 </html>
