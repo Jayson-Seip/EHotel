@@ -122,7 +122,7 @@
                             <td>
                             <form id="bookingForm" action="book-room.jsp" method="post">
                                 <input type ="hidden" name="roomID" value="<%= room.getRoomID() %>">
-                                <button class ="submit-button" type ="submit"><Book Room></button>
+                                <button class ="submit-button" type ="submit">Book Room</button>
                             </form>
                         </td>
                         </tr>

@@ -15,9 +15,7 @@
         request.getRequestDispatcher("employee-search.jsp").forward(request, response);
         }
         else{
-        System.out.println("Penis");
           int bookingID = Integer.parseInt(request.getParameter("BookingID"));
-          System.out.println(bookingID);
           booking = bookingService.getBooking(bookingID);
           System.out.println(booking.getBookingID());
           request.setAttribute("booking",booking);

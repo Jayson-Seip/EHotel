@@ -67,7 +67,7 @@ public class RentingService {
         ConnectionDB db = new ConnectionDB();
 
         String query1 = "INSERT INTO renting (roomID,customerID,checkout,checkin, paymentType) Values(?,?,?,?,?)";
-        String query2 = "INSERT INTO archives(customerID,bookingID,rentingID,checkin, checkout,paymentType) Values (?,?,null,?,null,null)";
+        String query2 = "INSERT INTO archives(customerID,bookingID,rentingID,checkin_date, checkout_date,paymentType) Values (?,?,null,?,null,null)";
         String query3 = "UPDATE booking SET payment=true, paymentType =? WHERE bookingID=?";
 
         try {
@@ -92,12 +92,14 @@ public class RentingService {
 
             // Sets payment to true inorder to get the check in
             PreparedStatement statement3 = con.prepareStatement(query3);
-            statement3.setInt(1, booking.getBookingID());
-            statement3.setString(2,updatedPayment);
+            statement3.setString(1,updatedPayment);
+            statement3.setInt(2, booking.getBookingID());
+
             statement3.executeUpdate();
             statement3.close();
 
         } catch (Exception e) {
+            e.printStackTrace();
             message = "Error moving booking to renting";
         } finally {
             if (con != null)

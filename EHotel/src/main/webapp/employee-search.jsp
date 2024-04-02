@@ -47,6 +47,8 @@ if(request.getAttribute("booking")!=null){
                             <tr>
                                 <th>BookingID</th>
                                 <th>CustomerID</th>
+                                <th>Check-in Date</th>
+                                <th>Check-out Date</th>
                                 <th> convert to renting</th>
                             </tr>
                         </thead>
@@ -54,10 +56,18 @@ if(request.getAttribute("booking")!=null){
                             <tr>
                                 <td><%= booking.getBookingID() %></td>
                                 <td><%= booking.getCustomerID() %></td>
+                                <td><%= booking.getCheckinDate() %></td>
+                                <td><%= booking.getCheckoutDate() %></td>
                                 <td>
-                                <form id="bookingForm" action="fine-booking.jsp" method="post">
-                                    <input type ="hidden" name="bookingID" value="<%= booking.getBookingID()%>">
-                                    <button class ="submit-button" type ="submit"><Book Room></button>
+                                <form id="bookingForm" action="check-customer-in.jsp" method="post">
+                                    <input type ="hidden" name="booking" value="<%=booking.getBookingID()%>">
+                                    <input type ="hidden" name="roomID" value ="<%=booking.getRoomID()%>">
+                                    <input type ="hidden" name="customerID" value ="<%=booking.getCustomerID()%>">
+                                    <input type ="hidden" name="checkin" value="<%=booking.getCheckinDate()%>">
+                                    <input type ="hidden" name="checkout" value ="<%=booking.getCheckoutDate()%>">
+                                    <input type ="hidden" name="payment" value ="<%=booking.getPayment()%>">
+                                    <input type ="hidden" name="paymentType" value ="<%=booking.getPaymentType()%>">
+                                   <button class ="submit-button" type ="submit"><Check-in></button>
                                 </form>
                             </td>
                             </tr>
@@ -65,8 +75,6 @@ if(request.getAttribute("booking")!=null){
                     </table>
                 </div>
                 <% } %>
-
-
 </div>
 
 

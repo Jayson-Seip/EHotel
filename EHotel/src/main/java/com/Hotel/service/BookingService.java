@@ -130,7 +130,6 @@ public class BookingService {
             statement.setInt(1,bookingID);
 
             ResultSet resultSet = statement.executeQuery();
-            System.out.println("Hello");
 
             while(resultSet.next()){
                 booking = new Booking(resultSet.getInt("bookingID"),
@@ -141,7 +140,6 @@ public class BookingService {
                         resultSet.getBoolean("payment"),
                         resultSet.getString("paymentType"));
             }
-            System.out.println("Pen"+booking.getBookingID());
             statement.close();
             db.close();
             con.close();
