@@ -74,7 +74,7 @@ Create table if not exists employee(
 
 	PRIMARY KEY(employeeID),
 	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE,
-	check(Length(cast(SIN as VARCHAR)) = 9)
+	CHECK (LENGTH(SIN::VARCHAR) = 9)
 );
 
 Drop table if exists positions cascade;
@@ -100,10 +100,10 @@ Create table if not exists works_as(
 
 Drop table if exists customer cascade;
 Create table if not exists customer(
-	customerID int NOT NULL,
+	customerID SERIAL NOT NULL,
 	fullName varchar(45) NOT NULL,
 	address varchar(45) NOT NULL,
-	registration bool NOT NULL,
+	registration Date NOT NULL,
 	ID int NOT NULL,
 
 	PRIMARY KEY(customerID)
@@ -159,7 +159,7 @@ Create table if not exists archives (
 );
 
 --Triggers and functions
-DROP FUNCTION if exists valid_booking;
+DROP FUNCTION if exists valid_booking cascade;
 Create FUNCTION valid_booking()
 	RETURNS TRIGGER as
 	$BODY$
@@ -179,11 +179,12 @@ Create FUNCTION valid_booking()
 	END;
 	$BODY$ LANGUAGE plpgsql;
 
-DROP FUNCTION if exists valid_renting;
+DROP FUNCTION if exists valid_renting cascade;
 Create FUNCTION valid_renting()
     RETURNS TRIGGER as
     $$
     BEGIN
+        --If this is converted from a booking then it is valid
 		IF (new.convertedFromBooking) THEN
 			RETURN NEW;
 		ELSE
@@ -219,11 +220,12 @@ Create TRIGGER prevent_booking_overlap
     FOR EACH ROW
     EXECUTE PROCEDURE valid_renting();
 
-DROP FUNCTION IF EXISTS valid_price;
+--Check if room creation is valid
+DROP FUNCTION IF EXISTS valid_price() cascade;
 Create FUNCTION valid_price()
 	RETURNS TRIGGER AS
 	$BODY$
-	BEGIN 
+	BEGIN
 	IF NEW.price<0 THEN RAISE EXCEPTION 'Price cannot be negative';
 	END IF;
 	RETURN NEW;
@@ -236,6 +238,19 @@ Create TRIGGER create_room
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_price();
 
+Create FUNCTION valid_SIN()
+	RETURNS TRIGGER AS
+	$BODY$
+	BEGIN
+	IF (LENGTH(NEW.SIN::VARCHAR) != 9) THEN RAISE EXCEPTION 'Price cannot be negative';
+	END IF;
+	RETURN NEW;
+END $BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER valid_SIN_checker
+BEFORE INSERT ON employee
+FOR EACH ROW
+EXECUTE PROCEDURE valid_SIN();
 
 --Views
 

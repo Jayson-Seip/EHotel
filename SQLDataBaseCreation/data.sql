@@ -896,11 +896,11 @@ INSERT INTO room_problems (roomID, problem) VALUES
 
 
 -- Customers
-insert into customer (customerID, fullName, address, registration , id) values (1, 'Massimiliano Ksandra', 'Apt 1852', true, 832598350);
-insert into customer (customerID, fullName, address, registration , id) values (2, 'Daffie Carlson', 'PO Box 86208', true, 839679732);
-insert into customer (customerID, fullName, address, registration , id) values (3, 'Iolanthe Southwood', '20th Floor', false, 755889482);
-insert into customer (customerID, fullName, address, registration , id) values (4, 'Nanci Peasegood', 'PO Box 41699', true, 673184214);
-insert into customer (customerID, fullName, address, registration , id) values (5, 'Jannelle Wolfendale', '7th Floor', true, 495650148);
+insert into customer (fullName, address, registration , id) values ('Massimiliano Ksandra', '125 Main St, Ottawa, Canada', '2024-04-02', 832598350);
+insert into customer (fullName, address, registration , id) values ('Daffie Carlson', '790 Elm St, Montreal, Canada', '2024-04-01', 839679732);
+insert into customer (fullName, address, registration , id) values ('Iolanthe Southwood', '233 Street St, Toronto, Canada', '2024-04-02', 755889482);
+insert into customer (fullName, address, registration , id) values ('Nanci Peasegood', '235 Maple St, Toronto, Canada', '2024-04-02', 673184214);
+insert into customer (fullName, address, registration , id) values ('Jannelle Wolfendale', '891 Pine St, New York, US', '2024-03-29', 495650148);
 
 --Employees
 -- Inserting data into the employee table with updated hotelIDs
