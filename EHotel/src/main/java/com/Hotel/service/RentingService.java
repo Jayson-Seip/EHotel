@@ -2,6 +2,7 @@ package com.Hotel.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.Hotel.db.ConnectionDB;
@@ -13,15 +14,49 @@ public class RentingService {
     /**
      * Creates a renting if the person walks into the hotel (Done by Employee)
      * 
-     * @param renting
+     * @param rentingID
      * @return Confirmation message that renting was sucessful created
      */
+
+    public Renting getRenting(int rentingID){
+        Connection con = null;
+        Renting renting = null;
+        ConnectionDB db = new ConnectionDB();
+        String query = "SELECT * FROM renting WHERE rentingID=?";
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1,rentingID);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                renting = new Renting(resultSet.getInt("rentingID"),
+                        resultSet.getInt("roomID"),
+                        resultSet.getInt("customerID"),
+                        resultSet.getDate("checkout"),
+                        resultSet.getDate("checkin"),
+                        resultSet.getString("paymentType"));
+            }
+            resultSet.close();
+            statement.close();
+            db.close();
+            con.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return renting;
+    }
+
+
+
     public String createRenting(Renting renting) throws SQLException {
         String message = "";
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO renting (roomID, customerID, checkout, checkin, paymenttype) VALUES(?,?,?,?,?);";
+        String query = "INSERT INTO renting (roomID, customerID, checkout, checkin, paymenttype,convertedFromBooking) VALUES(?,?,?,?,?,?);";
 
         try {
             con = db.getConnection();
@@ -32,6 +67,7 @@ public class RentingService {
             statement.setDate(3, renting.getCheckoutDate());
             statement.setDate(4, renting.getCheckinDate());
             statement.setString(5,renting.getPaymentType());
+            statement.setBoolean(6,false);
 
             statement.executeUpdate();
 
@@ -66,9 +102,9 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query1 = "INSERT INTO renting (roomID,customerID,checkout,checkin, paymentType) Values(?,?,?,?,?)";
+        String query1 = "INSERT INTO renting (roomID,customerID,checkout,checkin, paymentType,convertedFromBooking) Values(?,?,?,?,?,?)";
         String query2 = "INSERT INTO archives(customerID,bookingID,rentingID,checkin_date, checkout_date,paymentType) Values (?,?,null,?,null,null)";
-        String query3 = "UPDATE booking SET payment=true, paymentType =? WHERE bookingID=?";
+        String query3 = "UPDATE booking SET payment=true, paymenttype =? WHERE bookingID=?";
 
         try {
             // Turns renting into a booking
@@ -79,6 +115,7 @@ public class RentingService {
             statement.setDate(3, booking.getCheckoutDate());
             statement.setDate(4, booking.getCheckinDate());
             statement.setString(5,booking.getPaymentType());
+            statement.setBoolean(6,true);
             statement.executeUpdate();
             statement.close();
 
@@ -124,7 +161,7 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "UPDATE renting SET rentingID=?, checkout=?, WHERE customerID=? AND checkin=?";
+        String query = "UPDATE archives SET rentingID=?, checkout_date=? WHERE customerID=? AND checkin_date=?";
         try {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
@@ -140,6 +177,7 @@ public class RentingService {
 
         } catch (Exception e) {
             message = "Error checking customer out";
+            e.printStackTrace();
         } finally {
             if (con != null)
                 con.close();
@@ -147,7 +185,7 @@ public class RentingService {
             if (message.equals(""))
                 message = "Customer Successfully move out";
         }
-
+        System.out.println(message);
         return message;
     }
 

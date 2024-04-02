@@ -6,21 +6,20 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.Date"%>
 <%
- Booking booking = null;
- int bookingID = Integer.parseInt(request.getParameter("booking"));
- int roomID = Integer.parseInt(request.getParameter("roomID"));
- int customerID = Integer.parseInt(request.getParameter("customerID"));
- Date checkin = Date.valueOf(request.getParameter("checkin"));
- Date checkout = Date.valueOf(request.getParameter("checkout"));
- boolean payment = Boolean.parseBoolean(request.getParameter("payment"));
- String paymentType = request.getParameter("paymentType");
- booking = new Booking(bookingID, roomID, customerID,checkin,checkout,payment,paymentType);
+     Booking booking = null;
+     int bookingID = Integer.parseInt(request.getParameter("booking"));
+          int roomID = Integer.parseInt(request.getParameter("roomID"));
+          int customerID = Integer.parseInt(request.getParameter("customerID"));
+          Date checkin = Date.valueOf(request.getParameter("checkin"));
+          Date checkout = Date.valueOf(request.getParameter("checkout"));
+          boolean payment = Boolean.parseBoolean(request.getParameter("payment"));
+          String paymentType = request.getParameter("paymentType");
+          booking = new Booking(bookingID, roomID, customerID,checkin,checkout,payment,paymentType);
 if ("convertBooking".equals(request.getParameter("convertBook"))){
-
     RentingService rentService = new RentingService();
-rentService.bookingToRenting(booking, request.getParameter("paymenttype"));
-System.out.println("Check-in successful");
-request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
+    rentService.bookingToRenting(booking, request.getParameter("paymenttype"));
+    System.out.println("Check-in successful");
+    request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
 }
 
 %>
@@ -50,5 +49,5 @@ request.getRequestDispatcher("employee-booking-search.jsp").forward(request, res
             <option value="Cash">Cash</option>
         </select><br>
 
-   <button class ="submit-button" type ="submit"><Create Booking></button>
+   <button class ="submit-button" type ="submit">Check In</button>
 </form>

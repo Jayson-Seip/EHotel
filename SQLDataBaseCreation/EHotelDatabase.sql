@@ -134,6 +134,7 @@ Create table if not exists renting(
 	checkout Date NOT NULL,
 	checkin Date NOT NULL,
 	paymentType varchar(45),
+	convertedFromBooking bool,
 
 	PRIMARY KEY(rentingID),
 	FOREIGN KEY(roomID) REFERENCES room ON DELETE CASCADE ON UPDATE CASCADE,
@@ -175,9 +176,34 @@ Create FUNCTION valid_booking()
 		RAISE EXCEPTION 'Booking Checkout is before Checkin';
 	END IF;
 	RETURN NEW;
-	END
+	END;
 	$BODY$ LANGUAGE plpgsql;
 
+DROP FUNCTION if exists valid_renting;
+Create FUNCTION valid_renting()
+    RETURNS TRIGGER as
+    $$
+    BEGIN
+		IF (new.convertedFromBooking) THEN
+			RETURN NEW;
+		ELSE
+			IF EXISTS(
+				SELECT* FROM booking
+				WHERE roomID=NEW.roomID
+				AND NEW.CheckIn<checkOut
+				AND NEW.checkOut>checkIn
+			) THEN
+				RAISE EXCEPTION 'Booking Already Exists In between that time frame';
+			END IF;
+			IF NEW.checkin>NEW.checkout THEN
+				RAISE EXCEPTION 'Booking Checkout is before Checkin';
+			END IF;
+
+			RETURN NEW;
+		END IF;
+	END
+	$$
+	LANGUAGE plpgsql;
 
 --Prevents a booking from being overlapped
 DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
@@ -191,7 +217,7 @@ DROP TRIGGER IF EXISTS prevent_booking_overlap ON renting;
 Create TRIGGER prevent_booking_overlap
     BEFORE INSERT ON renting
     FOR EACH ROW
-    EXECUTE PROCEDURE valid_booking();
+    EXECUTE PROCEDURE valid_renting();
 
 DROP FUNCTION IF EXISTS valid_price;
 Create FUNCTION valid_price()
