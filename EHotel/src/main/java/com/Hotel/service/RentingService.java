@@ -21,7 +21,7 @@ public class RentingService {
         Connection con = null;
         ConnectionDB db = new ConnectionDB();
 
-        String query = "INSERT INTO renting (roomID, customerID, checkout, checkin, paymentType) VALUES(?,?,?,?,?);";
+        String query = "INSERT INTO renting (roomID, customerID, checkout, checkin, paymenttype) VALUES(?,?,?,?,?);";
 
         try {
             con = db.getConnection();
@@ -50,7 +50,7 @@ public class RentingService {
                 message = "renting successfully created";
             }
         }
-
+        System.out.println(message);
         return message;
     }
 

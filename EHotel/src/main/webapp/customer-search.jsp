@@ -59,7 +59,7 @@
        <input type="radio" id="suite" name="capacity" value="Suite"> <label for="suite">Suite</label><br>
 
           <br>Area:<br>
-          <label><input type="radio" name="area" value="Mountainside" checked>Mountainside</label><br>
+          <label><input type="radio" name="area" value="Mountainside">Mountainside</label><br>
           <label><input type="radio" name="area" value="Midtown">Midtown</label><br>
           <label><input type="radio" name="area" value="Suburb">Suburb</label><br>
           <label><input type="radio" name="area" value="Beachfront">Beachfront</label><br>

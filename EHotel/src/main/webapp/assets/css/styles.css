@@ -24,3 +24,8 @@ width: 150px; /* Set the width of the button */
         font-size: 18px; /* Set the font size of the button text */
         padding: 10px;
 }
+
+.view-table-container{
+width: 100%;
+margin-left: 10px;
+}

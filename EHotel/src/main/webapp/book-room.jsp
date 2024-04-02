@@ -5,6 +5,7 @@
 <%@ page import="com.Hotel.service.BookingService" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.Date"%>
+<%@ page import="java.sql.SQLException" %>
 
 <%
 if ("createBooking".equals(request.getParameter("bookForm"))){
@@ -41,9 +42,17 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
     }
     else{
     Booking booking = new Booking(0,roomID,custID,endDate,startDate,payment,paymentType);
+    try{
         bservice.createBooking(booking);
         response.sendRedirect("customer-view.jsp");
+    }catch(SQLException e){
+            System.out.println("Error Creating Booking");
+            response.sendRedirect("booking-error.jsp");
+        }
+
     }
+
+
 }
 %>
 <!DOCTYPE html>
@@ -73,11 +82,11 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
 </head>
 
 <body>
-<h1>RoomID: <%= request.getParameter("roomID") %></h1>
+<h1>Enter in Booking Information%></h1>
 <form id="createBooking" name="createBooking" action="book-room.jsp" method="post">
 <input type ="hidden" name="bookForm" value="createBooking">
     <label for="roomID">RoomID: </label>
-    <input type="number" id="roomID" name="roomID"><br>
+    <input type="number" id="roomID" name="roomID" value="<%= request.getParameter("roomID") %>" readonly><br>
 
     <label for="customerID"> customerID:</label>
     <input type="number" id="customerID" name="customerID"><br>
@@ -95,7 +104,7 @@ if ("createBooking".equals(request.getParameter("bookForm"))){
         </select><br>
 
         <label for="paymentType">Payment Type:</label>
-        <select id="paymentType" name="paymentType" disabled>
+        <select id="paymentType" name="paymentType">
             <option value="CreditCard">Credit Card</option>
             <option value="DebitCard">Debit Card</option>
         </select><br>

@@ -20,7 +20,7 @@ if ("convertBooking".equals(request.getParameter("convertBook"))){
     RentingService rentService = new RentingService();
 rentService.bookingToRenting(booking, request.getParameter("paymenttype"));
 System.out.println("Check-in successful");
-request.getRequestDispatcher("employee-search.jsp").forward(request, response);
+request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
 }
 
 %>
@@ -34,7 +34,7 @@ request.getRequestDispatcher("employee-search.jsp").forward(request, response);
 </head>
 
 <h1> Check user In</h1>
-<form id="convertBooking name="convertBooking" action="check-customer-in.jsp" method="post">
+<form id="convertBooking" name="convertBooking" action="check-customer-in.jsp" method="post">
 <input type ="hidden" name="convertBook" value="convertBooking">
 <input type ="hidden" name="booking" value="<%=booking.getBookingID()%>">
 <input type ="hidden" name="roomID" value ="<%=booking.getRoomID()%>">

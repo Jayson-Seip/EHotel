@@ -12,14 +12,13 @@
     if(request.getMethod().equalsIgnoreCase("post")){
         if(request.getParameter("BookingID")==null){
         System.out.println("Could not find booking");
-        request.getRequestDispatcher("employee-search.jsp").forward(request, response);
+        request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
         }
         else{
           int bookingID = Integer.parseInt(request.getParameter("BookingID"));
           booking = bookingService.getBooking(bookingID);
-          System.out.println(booking.getBookingID());
           request.setAttribute("booking",booking);
-          request.getRequestDispatcher("employee-search.jsp").forward(request, response);
+          request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
         }
 
     }

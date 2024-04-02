@@ -35,7 +35,6 @@ public class BookingService {
             statement.setString(6,booking.getPaymentType());
 
             statement.executeUpdate();
-            System.out.println("hello");
             statement.close();
             db.close();
 

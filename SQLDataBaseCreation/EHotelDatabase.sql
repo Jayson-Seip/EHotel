@@ -179,18 +179,19 @@ Create FUNCTION valid_booking()
 	$BODY$ LANGUAGE plpgsql;
 
 
-DROP TRIGGER IF EXISTS update_booking ON booking;
-Create TRIGGER update_booking
-	BEFORE UPDATE ON booking
-	FOR EACH ROW
-	EXECUTE PROCEDURE valid_booking();
-
-
+--Prevents a booking from being overlapped
 DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
 Create TRIGGER prevent_double_booking
 	BEFORE INSERT ON booking
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_booking();
+
+--prevents a renting from overlapping a booking
+DROP TRIGGER IF EXISTS prevent_booking_overlap ON renting;
+Create TRIGGER prevent_booking_overlap
+    BEFORE INSERT ON renting
+    FOR EACH ROW
+    EXECUTE PROCEDURE valid_booking();
 
 DROP FUNCTION IF EXISTS valid_price;
 Create FUNCTION valid_price()
