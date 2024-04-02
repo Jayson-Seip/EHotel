@@ -8,10 +8,41 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.Hotel.db.ConnectionDB;
 import com.Hotel.entities.Room;
+import com.Hotel.entities.RoomsPerArea;
 
 public class RoomService {
+
+    public List<RoomsPerArea> availableHotelRoomsPerArea() throws SQLException{
+        String query ="Select * from available_hotel_rooms_per_area";
+        List<RoomsPerArea> rooms = new ArrayList<>();
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            ResultSet rSet = statement.executeQuery();
+
+            while(rSet.next()){
+                RoomsPerArea r = new RoomsPerArea(rSet.getString("city"),
+                        rSet.getString("area"),
+                        rSet.getInt("availablehotelrooms"));
+                rooms.add(r);
+            }
+            rSet.close();
+            statement.close();
+            con.close();
+            db.close();
+        }catch (Exception e){
+
+        }
+        return rooms;
+
+    }
+
     /**
      * 
      * @param city

@@ -8,9 +8,35 @@ import java.util.List;
 
 import com.Hotel.db.ConnectionDB;
 import com.Hotel.entities.Hotel;
+import com.Hotel.entities.HotelCapacity;
 
 public class HotelService {
+    public List<HotelCapacity> getCapacityOfHotel(){
+        String query = "SELECT * FROM capacity_of_hotel";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+        List<HotelCapacity> hotelCapacity = new ArrayList<>();
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query); // the code that will be run in SQL
 
+            ResultSet rSet = statement.executeQuery();// Gets all the results from the query
+
+            while(rSet.next()){
+                HotelCapacity hc = new HotelCapacity(rSet.getString("name"), rSet.getInt("totalcapacity"));
+                hotelCapacity.add(hc);
+            }
+            rSet.close();
+            statement.close();
+            con.close();
+            db.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return hotelCapacity;
+
+    }
     /**
      * Gets the list of all hotels in the database
      * 
