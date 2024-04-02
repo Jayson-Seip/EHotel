@@ -1,13 +1,15 @@
 package com.Hotel.entities;
 
+import java.sql.Date;
+
 public class Customer {
     private int customerID;
     private String fullname;
     private String address;
-    private boolean registration;
+    private Date registration;
     private int id;
 
-    public Customer(int customerID, String fullname, String address, boolean registration, int id) {
+    public Customer(int customerID, String fullname, String address, Date registration, int id) {
         this.customerID = customerID;
         this.fullname = fullname;
         this.address = address;
@@ -27,7 +29,7 @@ public class Customer {
         return address;
     }
 
-    public boolean isRegistration() {
+    public Date getRegistration() {
         return registration;
     }
 

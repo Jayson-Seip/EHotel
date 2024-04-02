@@ -35,12 +35,44 @@
     <h1>EHotel Website</h1>
     <p>Are you an employee or customer<p>
    <div class="container">
-    <div>
+    <div class="button-container">
         <a href="customer-view.jsp"><button>Customer</button></a>
         <a href="employee-view.jsp"><button>Employee</button></a>
         <a href="create-customer.jsp"<button>Create new Customer</button></a>
     </div>
+     <div class="view-table-container">
+          <h1> Available Rooms per area</h1>
+                      <% if (roomsList.isEmpty()) { %>
+                      <h1 style="margin-top: 5rem;">No Rooms found!</h1>
+                      <% } else { %>
+                      <div class="table-responsive">
+                       <table class="table" style="width: 80%; height: 100px;">
+                  <thead>
+                      <tr>
+                          <th>City</th>
+                          <th>Area</th>
+                          <th>Available Hotel Rooms</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <%
 
+                          for (RoomsPerArea room : roomsList) {
+                      %>
+                          <tr>
+                              <td><%= room.getCity() %></td>
+                              <td><%= room.getArea() %></td>
+                              <td><%= room.getAvailableHotelRooms() %>
+                              </td>
+                          </tr>
+                      <% } %>
+
+                 </tbody>
+             </table>
+             </div>
+        <% } %>
+      </div>
+      <div>
     <div class="view-table-container">
     <h1> Hotel Capacity</h1>
                 <% if (capacityList .isEmpty()) { %>
@@ -56,7 +88,6 @@
             </thead>
             <tbody>
                 <%
-
                     for (HotelCapacity hc : capacityList) {
                 %>
                     <tr>
@@ -72,39 +103,9 @@
    <% } %>
   </div>
   <div>
-  <div class="view-table-container">
-      <h1> Available Rooms per area</h1>
-                  <% if (roomsList.isEmpty()) { %>
-                  <h1 style="margin-top: 5rem;">No Rooms found!</h1>
-                  <% } else { %>
-                  <div class="table-responsive">
-                   <table class="table" style="width: 100%; height: 100px;">
-              <thead>
-                  <tr>
-                      <th>City</th>
-                      <th>Area</th>
-                      <th>Available Hotel Rooms</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <%
 
-                      for (RoomsPerArea room : roomsList) {
-                  %>
-                      <tr>
-                          <td><%= room.getCity() %></td>
-                          <td><%= room.getArea() %></td>
-                          <td><%= room.getAvailableHotelRooms() %>
-                          </td>
-                      </tr>
-                  <% } %>
-
-             </tbody>
-         </table>
-         </div>
-    <% } %>
-  </div>
 </div>
+
 
 
     <script src="EHotel\src\main\webapp\assets\bootstrap\js\bootstrap.min.js"></script>

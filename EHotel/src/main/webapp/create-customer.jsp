@@ -1,3 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%@ page import="java.util.List" %>
+<%@ page import="com.Hotel.service.CustomerService"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Date"%>
+
+
+<%
+if ("customerForm".equals(request.getParameter("createForm"))){
+    CustomerService cs = new CustomerService();
+    String name = request.getParameter("customerName");
+    String address = request.getParameter("address");
+    int sin  = Integer.parseInt(request.getParameter("ID"));
+    cs.createCustomer(name,address,sin);
+    response.sendRedirect("index.jsp");
+}
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +27,16 @@
 </head>
 
 
-<form id="customerForm" action="find-room.jsp" method="post">
-        <label for="hotelChain"> Hotel Chain:</label>
-        <input type="text" id="hotelChain" name="hotelChain"><br>
+<form id="customerForm" action="create-customer.jsp" method="post">
+<input type ="hidden" name="createForm" value="customerForm">
+        <label for="customerName"> Full Name:</label>
+        <input type="text" id="customerName" name="customerName"><br>
 
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address"><br>
 
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city"><br>
-        </form>
+        <label for="ID">SIN:</label>
+        <input type="number" id="ID" name="ID"><br>
+
+        <button class ="submit-button" type ="submit">Create Customer</button>
+</form>

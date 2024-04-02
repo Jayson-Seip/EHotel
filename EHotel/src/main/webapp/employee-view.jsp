@@ -18,5 +18,6 @@
     <a href="create-renting.jsp"><button> Create Renting</button></a>
     <a href="employee-booking-search.jsp"><button>check in customer</button></a>
     <a href="employee-renting-search.jsp"><button>checkout customer</button></a>
+    <a href="insert-room.jsp"><button>Insert Room</button></a>
 <body>
 </html>
