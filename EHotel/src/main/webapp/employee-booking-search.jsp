@@ -34,6 +34,7 @@ if(request.getAttribute("booking")!=null){
     <div class="form-container">
         <form id="searchBookForm" action="find-booking.jsp" method="post">
             <label for="BookingID"> BookingID:</label>
+            <
             <input type="number" id="BookingID" name="BookingID"><br>
           </form>
     </div>

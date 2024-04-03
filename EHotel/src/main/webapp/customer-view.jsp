@@ -12,6 +12,7 @@
     <p>What would you like to do</p>
     <div>
         <a href="customer-search.jsp"><button>Search for a room</button></a>
+        <a href="delete-booking.jsp"><button>Delete booking</button></a>
     </div>
 
 

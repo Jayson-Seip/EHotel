@@ -11,14 +11,23 @@
     Booking booking = null;
     if(request.getMethod().equalsIgnoreCase("post")){
         if(request.getParameter("BookingID")==null){
+
         System.out.println("Could not find booking");
         request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
         }
         else{
+
           int bookingID = Integer.parseInt(request.getParameter("BookingID"));
           booking = bookingService.getBooking(bookingID);
           request.setAttribute("booking",booking);
+
+          if(request.getParameter("deleteBook").equals("deleteBooking")){
+              System.out.println("Deleting Booking");
+              request.getRequestDispatcher("delete-booking.jsp").forward(request, response);
+
+          }
           request.getRequestDispatcher("employee-booking-search.jsp").forward(request, response);
+
         }
 
     }

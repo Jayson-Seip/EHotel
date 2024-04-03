@@ -52,48 +52,6 @@ public class BookingService {
 
     }
 
-    /**
-     * Updates the booking of a hotel room
-     * 
-     * @param booking
-     * @return a message displaying if the update was successful
-     */
-    public String updateBooking(Booking booking) throws SQLException {
-        String message = "";
-        Connection con = null;
-        ConnectionDB db = new ConnectionDB();
-
-        String query = "UPDATE booking SET roomid=?,customerid=?,checkoutdate=?,checkingdate=?,payment=? WHERE id =?";
-
-        try {
-            con = db.getConnection();
-            PreparedStatement statement = con.prepareStatement(query);
-
-            // sets the values for the query for the database
-            statement.setInt(1, booking.getRoomID());
-            statement.setInt(2, booking.getCustomerID());
-            statement.setDate(3, booking.getCheckoutDate());
-            statement.setDate(4, booking.getCheckinDate());
-            statement.setBoolean(5, booking.getPayment());
-            statement.setInt(6, booking.getBookingID());
-
-            statement.executeUpdate(); // Runs the query
-            statement.close();
-            db.close();
-
-        } catch (Exception e) {
-            message = "Error updating booking";
-        } finally {
-            if (con != null)
-                con.close();
-            if (message.equals(""))
-                message = "Booking sucessful updated";
-        }
-
-        return message;
-
-    }
-
     public String deleteBooking(int bookingID) throws SQLException {
         String message = "";
         Connection con = null;
@@ -103,6 +61,7 @@ public class BookingService {
         try {
             con = db.getConnection();
             PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1,bookingID);
             statement.executeUpdate();
             statement.close();
 
