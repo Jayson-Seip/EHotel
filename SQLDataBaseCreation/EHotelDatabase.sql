@@ -75,6 +75,7 @@ Create table if not exists employee(
 	PRIMARY KEY(employeeID),
 	FOREIGN KEY(hotelID) REFERENCES hotel ON DELETE CASCADE ON UPDATE CASCADE,
 	CHECK (LENGTH(SIN::VARCHAR) = 9)
+
 );
 
 Drop table if exists positions cascade;
