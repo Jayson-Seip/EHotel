@@ -65,7 +65,7 @@ Create table if not exists room_problems(
 
 Drop table if exists employee cascade;
 Create table if not exists employee(
-	employeeID int NOT NULL,
+	employeeID serial NOT NULL,
 	SIN int NOT NULL,
 	fullName varchar(45) NOT NULL,
 	address varchar(45) NOT NULL,
@@ -80,11 +80,11 @@ Create table if not exists employee(
 
 Drop table if exists positions cascade;
 Create table if not exists positions(
-	postionID int NOT NULL,
+	positionID serial NOT NULL,
 	employeeID int NOT NULL,
-	postion varchar(20) NOT NULL,
+	position varchar(20) NOT NULL,
 
-	PRIMARY KEY(postionID),
+	PRIMARY KEY(positionID),
 	FOREIGN KEY(employeeID) REFERENCES employee ON DELETE CASCADE ON UPDATE CASCADE
 
 );
@@ -239,6 +239,7 @@ Create TRIGGER create_room
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_price();
 
+DROP FUNCTION IF EXISTS valid_SIN;
 Create FUNCTION valid_SIN()
 	RETURNS TRIGGER AS
 	$BODY$

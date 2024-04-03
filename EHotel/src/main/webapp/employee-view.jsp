@@ -14,12 +14,16 @@
 </head>
 
 <body>
-    <h1> hello employee </h1>
+    <h1> Welcome employee </h1>
+    <p>What would you like to do</p>
     <a href="create-renting.jsp"><button> Create Renting</button></a>
     <a href="employee-booking-search.jsp"><button>check in customer</button></a>
     <a href="employee-renting-search.jsp"><button>checkout customer</button></a>
     <a href="insert-room.jsp"><button>Insert Room</button></a>
     <a href="insert-room-amenity.jsp"><button>Insert Amenity</button></a>
     <a href="insert-room-problem.jsp"><button>Insert Problem</button></a>
+    <a href="create-new-employee.jsp"><button>Create Employee</button></a>
+
+
 <body>
 </html>
