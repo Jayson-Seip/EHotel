@@ -42,6 +42,47 @@ public class RoomService {
         return rooms;
 
     }
+    public void insertProblem(int roomID, String problem) throws SQLException{
+        String query = "INSERT INTO room_problems (roomID, problem) VALUES (?, ?)";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1,roomID);
+            statement.setString(2,problem);
+
+            statement.executeUpdate();
+            statement.close();
+            con.close();
+            db.close();
+
+        }catch (Exception e){
+            throw new SQLException();
+        }
+        System.out.println("problem created");
+    }
+    public void insertAmenity(int roomID, String amenity) throws SQLException{
+        String query = "INSERT INTO room_amenities (roomID, amenities) VALUES (?, ?)";
+        Connection con = null;
+        ConnectionDB db = new ConnectionDB();
+        try{
+            con = db.getConnection();
+            PreparedStatement statement = con.prepareStatement(query);
+            statement.setInt(1,roomID);
+            statement.setString(2,amenity);
+
+            statement.executeUpdate();
+            statement.close();
+            con.close();
+            db.close();
+            System.out.println("AmenityInserted");
+
+
+        }catch(Exception e){
+            throw new SQLException();
+        }
+    }
 
     /**
      * 
@@ -56,6 +97,7 @@ public class RoomService {
      * @return A list of rooms based off query searches specfied by the user
      * @throws SQLException
      */
+
     public List<Room> roomSearch(String city, Double lowerPrice, Double upperPrice, Date startDate, Date endDate,
             String capacity, String area, String hotelChain, Integer category, Integer numRooms) throws SQLException {
         List<Room> rooms = new ArrayList<>();

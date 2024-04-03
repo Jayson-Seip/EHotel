@@ -19,5 +19,7 @@
     <a href="employee-booking-search.jsp"><button>check in customer</button></a>
     <a href="employee-renting-search.jsp"><button>checkout customer</button></a>
     <a href="insert-room.jsp"><button>Insert Room</button></a>
+    <a href="insert-room-amenity.jsp"><button>Insert Amenity</button></a>
+
 <body>
 </html>
