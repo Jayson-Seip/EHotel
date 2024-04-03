@@ -160,6 +160,7 @@ Create table if not exists archives (
 );
 
 --Triggers and functions
+
 DROP FUNCTION if exists valid_booking cascade;
 Create FUNCTION valid_booking()
 	RETURNS TRIGGER as
@@ -207,14 +208,14 @@ Create FUNCTION valid_renting()
 	$$
 	LANGUAGE plpgsql;
 
---Prevents a booking from being overlapped
+--Prevents a room from being doubled booked
 DROP TRIGGER IF EXISTS prevent_double_booking ON booking;
 Create TRIGGER prevent_double_booking
 	BEFORE INSERT ON booking
 	FOR EACH ROW
 	EXECUTE PROCEDURE valid_booking();
 
---prevents a renting from overlapping a booking
+--prevents a renting from overlapping with a booking already made
 DROP TRIGGER IF EXISTS prevent_booking_overlap ON renting;
 Create TRIGGER prevent_booking_overlap
     BEFORE INSERT ON renting
@@ -232,7 +233,7 @@ Create FUNCTION valid_price()
 	RETURN NEW;
 END $BODY$ LANGUAGE plpgsql;
 
-
+-- Price cannot be negative ensure constraint is kept
 DROP TRIGGER IF EXISTS create_room ON room;
 Create TRIGGER create_room
 	BEFORE INSERT OR UPDATE ON room
@@ -249,6 +250,7 @@ Create FUNCTION valid_SIN()
 	RETURN NEW;
 END $BODY$ LANGUAGE plpgsql;
 
+-- Check if the employee sin number is 9 digits
 CREATE TRIGGER valid_SIN_checker
 BEFORE INSERT ON employee
 FOR EACH ROW
