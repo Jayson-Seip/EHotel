@@ -20,6 +20,6 @@
     <a href="employee-renting-search.jsp"><button>checkout customer</button></a>
     <a href="insert-room.jsp"><button>Insert Room</button></a>
     <a href="insert-room-amenity.jsp"><button>Insert Amenity</button></a>
-
+    <a href="insert-room-problem.jsp"><button>Insert Problem</button></a>
 <body>
 </html>

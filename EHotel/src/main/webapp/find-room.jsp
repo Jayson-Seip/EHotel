@@ -11,16 +11,16 @@
     RoomService roomService = new RoomService();
             List<Room> rooms = new ArrayList<>();
     if (request.getMethod().equalsIgnoreCase("post")){
-        String hotelChain = request.getParameter("hotelChain");
-           String city = request.getParameter("city");
-           Double lowerPrice = null;
-           Double upperPrice = null;
-           Date startDate = null;
-           Date endDate = null;
-           String capacity = request.getParameter("capacity");
-           String area = request.getParameter("area");
-           Integer category = null;
-           Integer numRooms = null;
+       String hotelChain = request.getParameter("hotelChain");
+       String city = request.getParameter("city");
+       Double lowerPrice = null;
+       Double upperPrice = null;
+       Date startDate = null;
+       Date endDate = null;
+       String capacity = request.getParameter("capacity");
+       String area = request.getParameter("area");
+       Integer category = null;
+       Integer numRooms = null;
 
         try {
         if(hotelChain == null || hotelChain.trim().isEmpty()){
